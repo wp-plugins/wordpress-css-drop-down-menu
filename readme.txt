@@ -1,7 +1,7 @@
 === Wordpress CSS Drop-down Menu ===
 Contributors: zackdesign
 http://www.zackdesign.biz/wp-plugins/42
-Tags: rss, image, feed, widget, simplepie, plugin
+Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme
 Requires at least: 2.3
 Tested up to: 2.3
 Stable tag: 0.1
