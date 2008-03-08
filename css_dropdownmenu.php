@@ -3,9 +3,23 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 0.1
+   Version: 0.2
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
+   
+Changelog:
+
+0.2
+
+- Added admin page
+- Can now stop certain pages showing... at the moment just doesn't fetch the pages (some parentless child pages
+  are fetched but now shown)
+
+0.1
+
+- First build
+   
+   
    */
 
 
@@ -24,8 +38,19 @@
 
    function wp_css_dropdownmenu()
    {
+     $pages = get_option('excluded_css_dropdown_pages');
+     
+     $remove = '';
+     
+     if ($pages)
+     {
+         $pages = explode(',',$pages);
+         
+         foreach ($pages as $page)
+             $remove .= 'AND ID != ' . $page;
+     }
 
-	   $before = '<ul>';
+     $before = '<ul>';
 	   $after = '</ul>';
 
       global $wpdb; // Global wordpress variables
@@ -35,7 +60,7 @@
 			$wpdb->posts.post_title,
 			$wpdb->posts.post_parent";
 		
-		$postSQL	.=	" FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->posts.post_type = 'page'";
+		$postSQL	.=	" FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->posts.post_type = 'page'" . $remove;
 
 		$postSQL	.=	" ORDER BY $wpdb->posts.menu_order";		
 
@@ -149,10 +174,70 @@
 
 			
 	}
+	
+  if ($_REQUEST['submit']) {
+  
+          update_CSSDropDownMenu_options();
+  }
+
+function CSSDropDownMenu_options () {
+     echo '<div class="wrap"><h2>Wordpress CSS Drop-Down Menu</h2>';
+     if ($_REQUEST['submit_content']) {
+          update_CSSDropDownMenu_options();
+     }
+     displayCSSDropDownMenuAdminPage();
+     echo '</div>';
+}
+
+
+  function update_CSSDropDownMenu_options()
+  {
+     $updated = false;
+     if ($_REQUEST['pages'] || !$_REQUEST['pages'] || ($_REQUEST['pages'] == '') ) {
+          update_option('excluded_css_dropdown_pages', $_REQUEST['pages']);
+          $updated = true;
+     }
+
+     if ($updated) {
+           echo '<div id="message" class="updated fade">';
+           echo '<p>Options Updated</p>';
+           echo '</div>';
+      } else {
+           echo '<div id="message" class="error fade">';
+           echo '<p>Unable to update options</p>';
+           echo '</div>';
+      }
+  }
+	
+	function displayCSSDropDownMenuAdminPage()
+	{
+	    $pages = get_option('excluded_css_dropdown_pages');
+?>
+
+	<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
+		
+    <h3>Exclude Pages by ID</h3>
+    
+		<p><b>Pages: </b><input type="text" name="pages" value="<?php echo $pages; ?>"></p>
+    <p>Seperate by commas if putting in multiple pages, e.g. 12,23,43.</p>
+    
+
+		<div class="submit">
+			<input type="submit" name="submit_content" value="<?php _e('Save', 'CSSDropDownMenu') ?>" />
+		</div></form>
+
+<?php
+	}
+	
+	function setupCSSDropDownMenuAdminPanel()
+	{
+			add_options_page('CSS Drop-down Menu', 'CSS Drop-down Menu', 9, basename(__FILE__), 'CSSDropDownMenu_options');
+	}
 
 	add_action('wp_head', 'css_dropdownmenu_css', 1);
 
 	add_action('admin_head', 'css_dropdownmenu_css', 1);
-
+	
+	add_action('admin_menu', 'setupCSSDropDownMenuAdminPanel');
 
 ?>

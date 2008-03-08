@@ -1,16 +1,18 @@
 === Wordpress CSS Drop-down Menu ===
 Contributors: zackdesign
 http://www.zackdesign.biz/wp-plugins/42
-Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme
+Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
 Requires at least: 2.3
 Tested up to: 2.3
-Stable tag: 0.1
+Stable tag: 0.2
 
 Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
 == Description ==
 
 Just recently I created a two-level drop-down menu plugin for Wordpress. NOTE: This is for people who know CSS and are willing to modify it to suit their theme!!! If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
+
+Now comes with an admin menu for excluding pages of your choice from displaying.
 
 It uses [Stu Nicholl’s final drop-down code](http://www.cssplay.co.uk/menus/final_drop.html "Stu Nicholl") which is a complete CSS solution - no Javascript required!! With the plugin I’ve included his CSS but not imported it directly as it’s best that you modify it to suit your theme, and you also need to read Stu’s copyright notice on the page I’ve linked to (a donation to his fund would also be good).
 
