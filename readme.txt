@@ -29,6 +29,7 @@ I certainly think that this solution is worth it because when it works it is ext
 3. Activate the plugin through the 'Plugins' menu in WordPress
 4. Place `<?php wp_css_dropdownmenu(); ?>` in your header.php file (or anywhere you want the drop-down menu to render)
 5. You may now begin modifying the CSS to suit.
+6. Optionally you can visit the Wordpress Options -> CSS Drop Down Admin menu to exclude certain pages from showing.
 
 == Frequently Asked Questions ==
 
