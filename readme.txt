@@ -4,13 +4,13 @@ http://www.zackdesign.biz/wp-plugins/42
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
 Requires at least: 2.3
 Tested up to: 2.3
-Stable tag: 0.3
+Stable tag: 1.0
 
-Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
+Creates a three-level navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
 == Description ==
 
-Just recently I created a two-level drop-down menu plugin for Wordpress. NOTE: This is for people who know CSS and are willing to modify it to suit their theme!!! If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
+I have created a THREE-level drop-down menu for Wordpress. NOTE: This is for people who know CSS and are willing to modify it to suit their theme!!! If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
 
 Now comes with an admin menu for excluding pages of your choice from displaying.
 

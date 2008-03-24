@@ -8,7 +8,7 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 0.3
+   Version: 1.0
 
    Author: Isaac Rowntree
 
@@ -17,6 +17,10 @@
    
 
 Changelog:
+
+1.0
+
+Added third level flyouts
 
 0.3
 
@@ -154,6 +158,8 @@ Changelog:
 		$parents = array();
 
 		$children = array();
+		
+		$sub_children = array();
 
 
 
@@ -168,28 +174,35 @@ Changelog:
 				  if ($display->post_parent == 0)
 
 				  {
-
-
-
-					array_push($parents, $display);
-
-
-
+					    array_push($parents, $display);
 				  }
-
-				  else
-
-				  {
-
-					array_push($children, $display);
-
-				  }
-
-
-
 			}
+			
+			if ( $articles ) {
+			   foreach ( $articles as $display ) {
+			   
+			   
+			   $sub_child = true;
+			       foreach ( $parents as $parent ) {
+			
+			        
+              
+              foreach ($parents as $p)
+				      {
+                  if ($display->post_parent == $p->ID)
+                  {
+                      $sub_child = false;
+                  }    
+              }
+              
 
-      
+           }              
+              if (!$sub_child)
+                  array_push($children, $display);
+              else
+                  array_push($sub_children, $display);
+         }
+      }
 
       foreach ( $parents as $parent ) {
 
@@ -198,9 +211,7 @@ Changelog:
 				$children_result='';
 
 				$child_exists ='';
-
-
-
+				
 				  //check if children exists
 
 				foreach ( $children as $child ) {
@@ -211,7 +222,51 @@ Changelog:
 
 					{
 
+				      $schildren_result='';
 
+				      $schild_exists ='';
+              // Do third level
+              
+              foreach ( $sub_children as $schild ) {
+                    
+                    if ($child->ID == $schild->post_parent)
+                    {
+                
+                        $schildListTitle	=	stripslashes(str_replace('"', '', $schild->post_title));
+                        
+                        if((strcmp  ( curPageURL()  , post_permalink($schild->ID) ) == 0) )
+                        {
+                            $schildren_result .= '
+                            <li class="current_page_item">';
+                        }
+                        else
+                        {
+                            $schildren_result .= '<li>';
+                        }
+                        
+                        $schildren_result .= '
+                        <a href="' . post_permalink($schild->ID) . '" rel="bookmark" title="Permanent link &quot;' . $schildListTitle . '&quot;">' . $schildListTitle . '</a></li>';
+                
+                    }
+              }
+              
+              $schildren_result2 ='';
+              
+              if ( $schildren_result )
+              {
+              
+              					$schildren_result2 = '<!--[if IE 7]><!--></a><!--<![endif]-->
+<!--[if lte IE 6]><table><tr><td><![endif]-->
+
+	<ul>'.$schildren_result.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
+	</li>';
+              
+              }
+              else
+                  $schildren_result2 = '0';
+              
+              
+              
 
 						$childListTitle	=	stripslashes(str_replace('"', '', $child->post_title));
 
@@ -220,8 +275,6 @@ Changelog:
 						if((strcmp  ( curPageURL()  , post_permalink($child->ID) ) == 0) )
 
 					   {	
-
-
 
 							$children_result .= '
 
@@ -236,12 +289,13 @@ Changelog:
 						   $children_result .= '<li>';
 
 						}
+						
+						if ($schildren_result2)
+						    $children_result .= '
 
-
-
-
-
-						$children_result .= '
+            <a href="' . post_permalink($child->ID) . '" rel="bookmark" title="Permanent link &quot;' . $childListTitle . '&quot;">' . $childListTitle . $schildren_result2;
+						else						
+						    $children_result .= '
 
             <a href="' . post_permalink($child->ID) . '" rel="bookmark" title="Permanent link &quot;' . $childListTitle . '&quot;">' . $childListTitle . '</a></li>';
 
