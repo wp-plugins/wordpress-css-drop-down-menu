@@ -84,7 +84,7 @@ Changelog:
 
 
 
-   function wp_css_dropdownmenu($before, $after)
+   function wp_css_dropdownmenu($none=1, $before, $after)
 
    {
 
@@ -388,7 +388,9 @@ Changelog:
 		}
 
 		
-    if (($before == '') && ($after== ''))
+    if ($none)
+        echo $result;
+    else if (($before == '') && ($after== ''))
 		    echo '<div class="menu"><ul>'.$result.'</ul></div>';	
     else
         echo $before.$result.$after;	
