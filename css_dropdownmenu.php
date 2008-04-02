@@ -84,7 +84,7 @@ Changelog:
 
 
 
-   function wp_css_dropdownmenu($none=1, $before, $after)
+   function wp_css_dropdownmenu($none=0, $before, $after)
 
    {
 
