@@ -4,7 +4,7 @@ http://www.zackdesign.biz/wp-plugins/42
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
 Requires at least: 2.3
 Tested up to: 2.3
-Stable tag: 1.0
+Stable tag: 1.1
 
 Creates a three-level navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
@@ -30,6 +30,8 @@ I certainly think that this solution is worth it because when it works it is ext
 4. Place `<?php wp_css_dropdownmenu(); ?>` in your header.php file (or anywhere you want the drop-down menu to render)
 5. You may now begin modifying the CSS to suit.
 6. Optionally you can visit the Wordpress Options -> CSS Drop Down Admin menu to exclude certain pages from showing.
+7. Now comes with the ability to set before and after HTML to wrap around the menu like so: `<?php wp_css_dropdownmenu(0, '<div id="menu"><ul>', '</ul></div>'); ?>`
+   Or you can have no wrapping whatsoever: `<?php wp_css_dropdownmenu(1); ?>`
 
 == Frequently Asked Questions ==
 

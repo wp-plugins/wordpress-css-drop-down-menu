@@ -8,7 +8,7 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 1.0
+   Version: 1.1
 
    Author: Isaac Rowntree
 
@@ -18,9 +18,13 @@
 
 Changelog:
 
+1.1
+
+- Able to pass certain directives to tell the menu what things to output
+
 1.0
 
-Added third level flyouts
+- Added third level flyouts
 
 0.3
 
@@ -80,7 +84,7 @@ Added third level flyouts
 
 
 
-   function wp_css_dropdownmenu()
+   function wp_css_dropdownmenu($before, $after)
 
    {
 
@@ -384,9 +388,10 @@ Added third level flyouts
 		}
 
 		
-
-		echo '<div class="menu"><ul>'.$result.'</ul></div>';	
-
+    if (($before == '') && ($after== ''))
+		    echo '<div class="menu"><ul>'.$result.'</ul></div>';	
+    else
+        echo $before.$result.$after;	
 
 
    }
