@@ -21,7 +21,6 @@ Changelog:
 1.2
 
 - Noticed some things weren't working quite right (e.g. extra <ul></ul> tags were apearing when no children were present)
-- Also made sure that the directives worked properly
 
 1.1
 
@@ -89,7 +88,7 @@ Changelog:
 
 
 
-   function wp_css_dropdownmenu($none=0, $before='<div class="menu"><ul>', $after='</ul></div>')
+   function wp_css_dropdownmenu($no_html = false, $before_plugin = '<div class="menu"><ul>', $after_plugin = '</ul></div>')
 
    {
 
@@ -393,10 +392,10 @@ Changelog:
 		}
 
 		
-    if ($none)
+    if ($no_html)
         echo $result;
     else
-        echo $before.$result.$after;	
+        echo $before_plugin.$result.$after_plugin;	
 
 
    }
