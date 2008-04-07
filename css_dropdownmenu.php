@@ -8,7 +8,7 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 1.1
+   Version: 1.2
 
    Author: Isaac Rowntree
 
@@ -17,6 +17,11 @@
    
 
 Changelog:
+
+1.2
+
+- Noticed some things weren't working quite right (e.g. extra <ul></ul> tags were apearing when no children were present)
+- Also made sure that the directives worked properly
 
 1.1
 
@@ -84,7 +89,7 @@ Changelog:
 
 
 
-   function wp_css_dropdownmenu($none=0, $before, $after)
+   function wp_css_dropdownmenu($none=0, $before='<div class="menu"><ul>', $after='</ul></div>')
 
    {
 
@@ -256,7 +261,7 @@ Changelog:
               
               $schildren_result2 ='';
               
-              if ( $schildren_result )
+              if ( ($schildren_result != '') && $schildren_result)
               {
               
               					$schildren_result2 = '<!--[if IE 7]><!--></a><!--<![endif]-->
@@ -313,7 +318,7 @@ Changelog:
 
 
 
-				if ( $children_result )
+				if ( ($children_result != '') && $children_result)
 
 				{
 
@@ -329,7 +334,7 @@ Changelog:
 
 				else
 
-				    $children_result2 = '<!--[if lte IE 6]><table><tr><td><![endif]--><ul></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>';
+				    $children_result2 = '<!--[if lte IE 6]></a><![endif]--></li>';
 
 
 
@@ -390,8 +395,6 @@ Changelog:
 		
     if ($none)
         echo $result;
-    else if (($before == '') && ($after== ''))
-		    echo '<div class="menu"><ul>'.$result.'</ul></div>';	
     else
         echo $before.$result.$after;	
 
