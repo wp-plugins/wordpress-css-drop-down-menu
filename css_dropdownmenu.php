@@ -8,7 +8,7 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 1.2
+   Version: 2.0
 
    Author: Isaac Rowntree
 
