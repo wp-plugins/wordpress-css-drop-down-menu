@@ -13,10 +13,13 @@
    Author: Isaac Rowntree
 
    Author URI: http://www.zackdesign.biz
-
    
-
 Changelog:
+
+2.0
+
+- Proper dynamic width using CSS
+- Added an admin option to set which class we use when generating dynamic width css, defaults to .menu
 
 1.2
 
@@ -36,8 +39,6 @@ Changelog:
 
 0.2
 
-
-
 - Added admin page
 
 - Can now stop certain pages showing... at the moment just doesn't fetch the pages (some parentless child pages
@@ -48,13 +49,7 @@ Changelog:
 
 0.1
 
-
-
 - First build
-
-   
-
-   
 
    */
 
@@ -84,83 +79,18 @@ Changelog:
 
 	}
 
-
-
-
-
    function wp_css_dropdownmenu($no_html = false, $before_plugin = '<div class="menu"><ul>', $after_plugin = '</ul></div>')
 
    {
-
-     $pages = get_option('excluded_css_dropdown_pages');
-
-     
-
-     $remove = '';
-
-     
-
-     if ($pages)
-
-     {
-
-         $pages = explode(',',$pages);
-
-         
-
-         foreach ($pages as $page)
-
-             $remove .= ' AND ID != ' . $page;
-
-     }
-
-
-
-
      $before = '<ul>';
 
 	   $after = '</ul>';
-
-
-
-      global $wpdb; // Global wordpress variables
-
 		
-
-      $postSQL =  "SELECT 
-
-			$wpdb->posts.ID, 
-
-			$wpdb->posts.post_title,
-
-			$wpdb->posts.post_parent";
-
-		
-
-		$postSQL	.=	" FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' AND $wpdb->posts.post_type = 'page'" . $remove;
-
-
-
-		$postSQL	.=	" ORDER BY $wpdb->posts.menu_order";		
-
-
-
-		  //	Get the results
-
-		  $articles	=	$wpdb->get_results($postSQL);
-
-		
+		 $articles = get_pages_from_DB();
 
 		  //	Show the results
 
 		  $result  =  "";
-
-
-
-		
-
-
-
 
 
 		$parents = array();
@@ -373,15 +303,7 @@ Changelog:
 
           <a href="' . post_permalink($parent->ID) . '" rel="bookmark" title="Permanent link &quot;' . $listTitle . '&quot;">' . $listTitle .'<!--[if IE 7]><!--></a><!--<![endif]-->'.$children_result2 ;
 
-				  
-
-
-
 			}
-
-			
-
-
 
 		 }else {
 
@@ -401,20 +323,66 @@ Changelog:
    }
 
 
+function get_pages_from_DB ( $parent = -1 )
+{
+    global $wpdb; // Global wordpress variables
+    
+    if ($parent > -1)
+        $parent = " AND $wpdb->posts.post_parent = '$parent'";
+    else
+        $parent = '';
 
+     $pages = get_option('excluded_css_dropdown_pages');
 
-
-	function css_dropdownmenu_css() {
-
-
-
-		print "<link media='screen' type='text/css' href='".get_bloginfo('url')."/wp-content/plugins/wp_css_dropdownmenu/styles.css' rel='stylesheet'></link>";
-
-
-
+     $remove = '';
+     if ($pages)
+     {
+         $pages = explode(',',$pages);
+         foreach ($pages as $page)
+             $remove .= ' AND ID != ' . $page;
+     }
+      $postSQL =  "SELECT 
+			$wpdb->posts.ID, 
+			$wpdb->posts.post_title,
+			$wpdb->posts.post_parent";
 			
+		$postSQL	.=	" FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' $parent AND $wpdb->posts.post_type = 'page'" . $remove;
 
-	}
+		$postSQL	.=	" ORDER BY $wpdb->posts.menu_order";
+
+		  //	Get the results
+		  return $wpdb->get_results($postSQL);
+}
+
+function css_dropdownmenu_css() {
+
+    $dynamic = get_option('wp_css_menu_dynamic');
+    if ($dynamic)
+    {
+        $pages = sizeof(get_pages_from_DB(0));
+        $width = get_option('wp_css_menu_width');
+        $class = get_option('wp_css_menu_class');
+        if (!$class || ($class == ''))
+            $class = 'menu';
+        
+        // Li is the full width divided by the number of pages - the a width is li less a seemingly arbitrary number??
+        $li = ($width - 1) / $pages ;
+        $a  = $li - 11;
+        
+        echo '
+        <!-- wp_css_menu_dropdown dynamic menu widths -->
+        <style type=\'text/css\' media=\'screen\'>
+            .'.$class.' {width: '.$width.'px}
+            * html .'.$class.' {width:'.$width.'px; w\idth:'.$width.'px;}
+            .'.$class.' li {width:'.$li.'px; }
+            .'.$class.' a, .'.$class.' a:visited {width:'.$a.'px; }
+            * html .'.$class.' a, * html .'.$class.' a:visited {width:'.$a.'px; w\idth:'.$a.'px;}        
+        </style>
+        <!-- /dynamic menu widths -->
+        
+        ';
+    }
+}
 
 
 function CSSDropDownMenu_options () {
@@ -440,15 +408,15 @@ function CSSDropDownMenu_options () {
   {
 
      $updated = false;
-
-     if ($_REQUEST['pages'] || !$_REQUEST['pages'] || ($_REQUEST['pages'] == '') ) {
+     
+     if (!$_REQUEST['dynamic'])
+         $_REQUEST['dynamic'] = 0;
+         
+     update_option('wp_css_menu_dynamic', $_REQUEST['dynamic']);
+     update_option('wp_css_menu_class', $_REQUEST['cssclass']);
 
           update_option('excluded_css_dropdown_pages', $_REQUEST['pages']);
-
-          $updated = true;
-
-     }
-
+     $updated = true;
 
 
      if ($updated) {
@@ -478,6 +446,11 @@ function CSSDropDownMenu_options () {
 	{
 
 	    $pages = get_option('excluded_css_dropdown_pages');
+	    $class = get_option('wp_css_menu_class');
+	    if (get_option('wp_css_menu_dynamic'))
+        $checked = 'checked="checked"';
+      else
+        $checked = '';
 
 ?>
 
@@ -491,12 +464,32 @@ function CSSDropDownMenu_options () {
 
     
 
+
+
+
+
+
 		<p><b>Pages: </b><input type="text" name="pages" value="<?php echo $pages; ?>"></p>
 
     <p>Seperate by commas if putting in multiple pages, e.g. 12,23,43.</p>
-
     
+    <h3>Dynamic Menu Width</h3>
 
+
+		<p><b>Dynamic? </b><input type="checkbox" name="dynamic" value="1" <?php echo $checked; ?>></p>
+		<p><b>Dynamic class (to be used if you set something other than .menu): </b>
+     <b>.</b><input type="text" name="cssclass" value="<?php echo $class; ?>"></p>
+
+    <p>Place the following code somewhere in functions.php in your theme, 
+    replacing 900 with the value of your header width:</p>
+    
+    <code>
+// Menu Width for WP CSS Dropdown Menu<br /><br />
+
+update_option('wp_css_menu_width', 900);<br />
+<br />
+/*------------------------------------*/
+</code>
 
 
 		<div class="submit">
@@ -525,14 +518,7 @@ function CSSDropDownMenu_options () {
 
 	add_action('wp_head', 'css_dropdownmenu_css', 1);
 
-
-
-	add_action('admin_head', 'css_dropdownmenu_css', 1);
-
-	
-
 	add_action('admin_menu', 'setupCSSDropDownMenuAdminPanel');
-
 
 
 ?>
