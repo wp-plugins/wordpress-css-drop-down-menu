@@ -8,13 +8,17 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 2.0
+   Version: 2.1
 
    Author: Isaac Rowntree
 
    Author URI: http://www.zackdesign.biz
    
 Changelog:
+
+2.1 
+
+- Makes it so that if the width of top elements are wider than a certain amount the bottom level grows with it
 
 2.0
 
@@ -367,7 +371,15 @@ function css_dropdownmenu_css() {
         
         // Li is the full width divided by the number of pages - the a width is li less a seemingly arbitrary number??
         $li = ($width - 1) / $pages ;
-        $a  = $li - 11;
+        $a  = $li - 10;
+        
+        $lili = 128;
+        // Now the second level widths...
+        $lili = 128;
+        if ($li > $lili)
+            $lili = $li - 21;
+        $aa = $lili + 22;
+            
         
         echo '
         <!-- wp_css_menu_dropdown dynamic menu widths -->
@@ -376,7 +388,9 @@ function css_dropdownmenu_css() {
             * html .'.$class.' {width:'.$width.'px; w\idth:'.$width.'px;}
             .'.$class.' li {width:'.$li.'px; }
             .'.$class.' a, .'.$class.' a:visited {width:'.$a.'px; }
-            * html .'.$class.' a, * html .'.$class.' a:visited {width:'.$a.'px; w\idth:'.$a.'px;}        
+            * html .'.$class.' a, * html .'.$class.' a:visited {width:'.$a.'px; w\idth:'.$a.'px;}
+            .'.$class.' ul ul a, .'.$class.' ul ul a:visited {width:'.$lili.'px;}
+            * html .'.$class.' ul ul a, * html .'.$class.' ul ul a:visited {width:'.$aa.'px;w\idth:'.$lili.'px;}                    
         </style>
         <!-- /dynamic menu widths -->
         
