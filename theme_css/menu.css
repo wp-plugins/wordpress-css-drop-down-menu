@@ -63,3 +63,40 @@ way to fit your requirements.
 /* make the third level visible when you hover over second level list OR link */
 .menu ul :hover ul :hover ul{ visibility:visible;}
 
+
+/* ================================================================ 
+   This CSS is further CSS I have created specifically for Wordpress
+   so that the current page is highlighted in two levels.
+   If you want it in three levels let me know.
+
+   Author: Isaac Rowntree
+   Website: www.zackdesign.biz
+=================================================================== */
+
+
+.menu ul ul .current_page_item a {
+  color: red;
+  background: white;
+  border-left: 1px solid black;
+}
+
+.menu .current_page_item a {
+  color: red;
+  font-weight: bold;
+  background: white;
+}
+
+.menu ul .current_page_item ul a {
+  color: white;
+  font-weight: normal;
+  background: black;
+}
+
+.menu ul .current_page_item ul a:hover {
+  background: gray;
+}
+
+.menu .current_page_item a:hover {
+  background: white;
+}
+
