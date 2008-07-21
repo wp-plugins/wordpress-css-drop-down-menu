@@ -10,7 +10,7 @@ Creates a DYNAMIC three-level navigation menu of pages with dropdown menus for c
 
 == Description ==
 
-NEW!!! I have made the menu dynamic width depending on which pages are available!
+NEW!!! I have made the menu dynamic width depending on which pages are available! Filters are also applied to the page names!
 
 I have created a THREE-level drop-down menu for Wordpress. NOTE: This is for people who know CSS and are willing to modify it to suit their theme!!! If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
 

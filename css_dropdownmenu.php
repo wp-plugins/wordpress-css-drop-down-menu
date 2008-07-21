@@ -8,13 +8,17 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 2.1
+   Version: 2.1.1
 
    Author: Isaac Rowntree
 
    Author URI: http://www.zackdesign.biz
    
 Changelog:
+
+2.1.1
+
+- Added filter to titles so that it works with plugins which filter the titles like QTranslate, etc.
 
 2.1 
 
@@ -174,7 +178,7 @@ Changelog:
                     if ($child->ID == $schild->post_parent)
                     {
                 
-                        $schildListTitle	=	stripslashes(str_replace('"', '', $schild->post_title));
+                        $schildListTitle	=	apply_filters('the_title', stripslashes(str_replace('"', '', $schild->post_title)));
                         
                         if((strcmp  ( curPageURL()  , post_permalink($schild->ID) ) == 0) )
                         {
@@ -210,7 +214,7 @@ Changelog:
               
               
 
-						$childListTitle	=	stripslashes(str_replace('"', '', $child->post_title));
+						$childListTitle	=	apply_filters('the_title', stripslashes(str_replace('"', '', $child->post_title)));
 
 						
 
@@ -273,9 +277,7 @@ Changelog:
 
 				  //	Format the title
 
-				  $listTitle	=	stripslashes(str_replace('"', '', $parent->post_title));
-
-				
+				  $listTitle	=	apply_filters('the_title', stripslashes(str_replace('"', '', $parent->post_title)));
 
 				 //	Set up the return string
 
