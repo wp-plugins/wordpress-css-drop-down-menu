@@ -390,7 +390,8 @@ function css_dropdownmenu_css() {
             .'.$class.' a, .'.$class.' a:visited {width:'.$a.'px; }
             * html .'.$class.' a, * html .'.$class.' a:visited {width:'.$a.'px; w\idth:'.$a.'px;}
             .'.$class.' ul ul a, .'.$class.' ul ul a:visited {width:'.$lili.'px;}
-            * html .'.$class.' ul ul a, * html .'.$class.' ul ul a:visited {width:'.$aa.'px;w\idth:'.$lili.'px;}                    
+            * html .'.$class.' ul ul a, * html .'.$class.' ul ul a:visited {width:'.$aa.'px;w\idth:'.$lili.'px;}       
+            .'.$class.' ul ul ul {width:'.$li.'px; left:'.$li.'px}                          
         </style>
         <!-- /dynamic menu widths -->
         
