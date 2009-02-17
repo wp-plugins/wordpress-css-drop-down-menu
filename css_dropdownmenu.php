@@ -8,13 +8,18 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 2.2
+   Version: 2.2.1
 
    Author: Isaac Rowntree
 
    Author URI: http://www.zackdesign.biz
    
 Changelog:
+
+2.2.1
+
+- Added a way to make wrapped pages auto-dynamically factored in
+- Fixed some minor bugs
 
 2.2
 
@@ -109,6 +114,8 @@ Changelog:
 		$sub_children = array();
 
     $start_parent = get_option('wp_css_start_page');
+    if (empty($start_parent))
+        $start_parent = 0;
 
   		if ( $articles ) {
 
@@ -367,9 +374,15 @@ function css_dropdownmenu_css() {
 
     $dynamic = get_option('wp_css_menu_dynamic');
     $start_parent = get_option('wp_css_start_page');
+    if (empty($start_parent))
+        $start_parent = 0;
+    $extra_pages = get_option('wp_css_extra');
+    if (empty($extra_pages))
+        $extra_pages = 0;
+        
     if ($dynamic)
     {
-        $pages = sizeof(get_pages_from_DB($start_parent));
+        $pages = sizeof(get_pages_from_DB($start_parent)) + $extra_pages;
         $width = get_option('wp_css_menu_width');
         $class = get_option('wp_css_menu_class');
         if (!$class || ($class == ''))
@@ -437,7 +450,8 @@ function CSSDropDownMenu_options () {
      update_option('wp_css_menu_dynamic', $_REQUEST['dynamic']);
      update_option('wp_css_menu_class', $_REQUEST['cssclass']);
      update_option('wp_css_start_page', $_REQUEST['start_page']);
-     update_option('wp_css_menu_width', $_REQUEST['width']);
+     update_option('wp_css_menu_width', $_REQUEST['menu_width']);
+     update_option('wp_css_extra', $_REQUEST['extra_pages']);
 
           update_option('excluded_css_dropdown_pages', $_REQUEST['pages']);
      $updated = true;
@@ -473,6 +487,7 @@ function CSSDropDownMenu_options () {
 	    $class = get_option('wp_css_menu_class');
 	    $width = get_option('wp_css_menu_width');
 	    $page = get_option('wp_css_start_page');
+	    $extra = get_option('wp_css_extra');
 	    if (get_option('wp_css_menu_dynamic'))
         $checked = 'checked="checked"';
       else
@@ -503,6 +518,9 @@ function CSSDropDownMenu_options () {
 		<p><b>Dynamic class (to be used if you set something other than .menu): </b>
      <b>.</b><input type="text" name="cssclass" value="<?php echo $class; ?>"></p>
     <p><b>Width: </b><input type="text" name="menu_width" value="<?php echo $width; ?>"></p>
+    <p><b>Extra Pages: </b><input type="text" name="extra_pages" value="<?php echo $extra; ?>"></p>
+    <p>Extra pages are the pages you have added in when creating your own 'wrapping' HTML. Expected is the number of extra pages. This will be used to 
+    decide how wide to make each list element.</p>
   
 
 
