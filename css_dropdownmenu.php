@@ -8,7 +8,7 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 2.1.1
+   Version: 2.2
 
    Author: Isaac Rowntree
 
@@ -16,9 +16,10 @@
    
 Changelog:
 
-2.1.1
+2.2
 
-- Added filter to titles so that it works with plugins which filter the titles like QTranslate, etc.
+- Added a start parent
+- Moved dynamic width to settings only. No real point in forcing it to be stuck in functions.php.
 
 2.1 
 
@@ -107,7 +108,7 @@ Changelog:
 		
 		$sub_children = array();
 
-
+    $start_parent = get_option('wp_css_start_page');
 
   		if ( $articles ) {
 
@@ -117,7 +118,7 @@ Changelog:
 
 				  
 
-				  if ($display->post_parent == 0)
+				  if ($display->post_parent == $start_parent)
 
 				  {
 					    array_push($parents, $display);
@@ -178,7 +179,7 @@ Changelog:
                     if ($child->ID == $schild->post_parent)
                     {
                 
-                        $schildListTitle	=	apply_filters('the_title', stripslashes(str_replace('"', '', $schild->post_title)));
+                        $schildListTitle	=	stripslashes(str_replace('"', '', $schild->post_title));
                         
                         if((strcmp  ( curPageURL()  , post_permalink($schild->ID) ) == 0) )
                         {
@@ -214,7 +215,7 @@ Changelog:
               
               
 
-						$childListTitle	=	apply_filters('the_title', stripslashes(str_replace('"', '', $child->post_title)));
+						$childListTitle	=	stripslashes(str_replace('"', '', $child->post_title));
 
 						
 
@@ -277,7 +278,9 @@ Changelog:
 
 				  //	Format the title
 
-				  $listTitle	=	apply_filters('the_title', stripslashes(str_replace('"', '', $parent->post_title)));
+				  $listTitle	=	stripslashes(str_replace('"', '', $parent->post_title));
+
+				
 
 				 //	Set up the return string
 
@@ -363,9 +366,10 @@ function get_pages_from_DB ( $parent = -1 )
 function css_dropdownmenu_css() {
 
     $dynamic = get_option('wp_css_menu_dynamic');
+    $start_parent = get_option('wp_css_start_page');
     if ($dynamic)
     {
-        $pages = sizeof(get_pages_from_DB(0));
+        $pages = sizeof(get_pages_from_DB($start_parent));
         $width = get_option('wp_css_menu_width');
         $class = get_option('wp_css_menu_class');
         if (!$class || ($class == ''))
@@ -392,7 +396,9 @@ function css_dropdownmenu_css() {
             .'.$class.' a, .'.$class.' a:visited {width:'.$a.'px; }
             * html .'.$class.' a, * html .'.$class.' a:visited {width:'.$a.'px; w\idth:'.$a.'px;}
             .'.$class.' ul ul a, .'.$class.' ul ul a:visited {width:'.$lili.'px;}
-            * html .'.$class.' ul ul a, * html .'.$class.' ul ul a:visited {width:'.$aa.'px;w\idth:'.$lili.'px;}                    
+            * html .'.$class.' ul ul a, * html .'.$class.' ul ul a:visited {width:'.$aa.'px;w\idth:'.$lili.'px;}       
+            .'.$class.' ul ul ul {width:'.$li.'px; left:'.$li.'px}
+            .'.$class.' ul ul {width:'.$li.'px;}                     
         </style>
         <!-- /dynamic menu widths -->
         
@@ -430,6 +436,8 @@ function CSSDropDownMenu_options () {
          
      update_option('wp_css_menu_dynamic', $_REQUEST['dynamic']);
      update_option('wp_css_menu_class', $_REQUEST['cssclass']);
+     update_option('wp_css_start_page', $_REQUEST['start_page']);
+     update_option('wp_css_menu_width', $_REQUEST['width']);
 
           update_option('excluded_css_dropdown_pages', $_REQUEST['pages']);
      $updated = true;
@@ -463,6 +471,8 @@ function CSSDropDownMenu_options () {
 
 	    $pages = get_option('excluded_css_dropdown_pages');
 	    $class = get_option('wp_css_menu_class');
+	    $width = get_option('wp_css_menu_width');
+	    $page = get_option('wp_css_start_page');
 	    if (get_option('wp_css_menu_dynamic'))
         $checked = 'checked="checked"';
       else
@@ -478,16 +488,13 @@ function CSSDropDownMenu_options () {
 
     <h3>Exclude Pages by ID</h3>
 
-    
-
-
-
-
-
-
 		<p><b>Pages: </b><input type="text" name="pages" value="<?php echo $pages; ?>"></p>
 
     <p>Seperate by commas if putting in multiple pages, e.g. 12,23,43.</p>
+    
+    <h3>Starting Root Page ID</h3>
+    
+    <p><b>Page: </b><input type="text" name="start_page" value="<?php echo $page; ?>"></p>
     
     <h3>Dynamic Menu Width</h3>
 
@@ -495,17 +502,8 @@ function CSSDropDownMenu_options () {
 		<p><b>Dynamic? </b><input type="checkbox" name="dynamic" value="1" <?php echo $checked; ?>></p>
 		<p><b>Dynamic class (to be used if you set something other than .menu): </b>
      <b>.</b><input type="text" name="cssclass" value="<?php echo $class; ?>"></p>
-
-    <p>Place the following code somewhere in functions.php in your theme, 
-    replacing 900 with the value of your header width:</p>
-    
-    <code>
-// Menu Width for WP CSS Dropdown Menu<br /><br />
-
-update_option('wp_css_menu_width', 900);<br />
-<br />
-/*------------------------------------*/
-</code>
+    <p><b>Width: </b><input type="text" name="menu_width" value="<?php echo $width; ?>"></p>
+  
 
 
 		<div class="submit">
