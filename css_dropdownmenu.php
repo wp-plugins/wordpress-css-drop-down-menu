@@ -8,13 +8,18 @@
 
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
 
-   Version: 2.2.1
+   Version: 2.2.2
 
    Author: Isaac Rowntree
 
    Author URI: http://www.zackdesign.biz
    
 Changelog:
+
+2.2.2
+
+- Can now add a home-page by ticking it in settings
+- List of IDs for which to not make an URL
 
 2.2.1
 
@@ -112,6 +117,9 @@ Changelog:
 		$children = array();
 		
 		$sub_children = array();
+		
+		$no_urls = get_option('wp_css_menu_urls');
+		$urls = explode(',',$no_urls);
 
     $start_parent = get_option('wp_css_start_page');
     if (empty($start_parent))
@@ -157,6 +165,11 @@ Changelog:
                   array_push($sub_children, $display);
          }
       }
+      
+      if (get_option('wp_css_menu_home'))
+          $result .= '<li>
+
+          <a href="'.get_bloginfo('url').'" rel="bookmark" title="'.get_bloginfo('name').'">Home<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]></a><![endif]--></li>';
 
       foreach ( $parents as $parent ) {
 
@@ -198,8 +211,16 @@ Changelog:
                             $schildren_result .= '<li>';
                         }
                         
+                        foreach ($urls as $u)
+                        {
+                            if ($schild-ID == $u)
+                                $url = '#';
+                            else
+                                $url = post_permalink($schild->ID);
+                        }
+                        
                         $schildren_result .= '
-                        <a href="' . post_permalink($schild->ID) . '" rel="bookmark" title="Permanent link &quot;' . $schildListTitle . '&quot;">' . $schildListTitle . '</a></li>';
+                        <a href="' . $url . '" rel="bookmark" title="Permanent link &quot;' . $schildListTitle . '&quot;">' . $schildListTitle . '</a></li>';
                 
                     }
               }
@@ -244,14 +265,22 @@ Changelog:
 
 						}
 						
+						foreach ($urls as $u)
+            {
+                if ($child-ID == $u)
+                    $url = '#';
+                else
+                    $url = post_permalink($child->ID);
+            }
+						
 						if ($schildren_result2)
 						    $children_result .= '
 
-            <a href="' . post_permalink($child->ID) . '" rel="bookmark" title="Permanent link &quot;' . $childListTitle . '&quot;">' . $childListTitle . $schildren_result2;
+            <a href="' . $url . '" rel="bookmark" title="Permanent link &quot;' . $childListTitle . '&quot;">' . $childListTitle . $schildren_result2;
 						else						
 						    $children_result .= '
 
-            <a href="' . post_permalink($child->ID) . '" rel="bookmark" title="Permanent link &quot;' . $childListTitle . '&quot;">' . $childListTitle . '</a></li>';
+            <a href="' . $url . '" rel="bookmark" title="Permanent link &quot;' . $childListTitle . '&quot;">' . $childListTitle . '</a></li>';
 
 					}
 
@@ -313,11 +342,17 @@ Changelog:
 
 					}					
 
-
+						foreach ($urls as $u)
+            {
+                if ($parent->ID == $u)
+                    $url = '#';
+                else
+                    $url = post_permalink($parent->ID);
+            }
 
 				  $result  .=	'
 
-          <a href="' . post_permalink($parent->ID) . '" rel="bookmark" title="Permanent link &quot;' . $listTitle . '&quot;">' . $listTitle .'<!--[if IE 7]><!--></a><!--<![endif]-->'.$children_result2 ;
+          <a href="' . $url . '" rel="bookmark" title="Permanent link &quot;' . $listTitle . '&quot;">' . $listTitle .'<!--[if IE 7]><!--></a><!--<![endif]-->'.$children_result2 ;
 
 			}
 
@@ -379,6 +414,9 @@ function css_dropdownmenu_css() {
     $extra_pages = get_option('wp_css_extra');
     if (empty($extra_pages))
         $extra_pages = 0;
+        
+    if (get_option('wp_css_menu_home'))
+        $extra_pages++;
         
     if ($dynamic)
     {
@@ -452,6 +490,8 @@ function CSSDropDownMenu_options () {
      update_option('wp_css_start_page', $_REQUEST['start_page']);
      update_option('wp_css_menu_width', $_REQUEST['menu_width']);
      update_option('wp_css_extra', $_REQUEST['extra_pages']);
+     update_option('wp_css_menu_urls', $_REQUEST['urls']);
+     update_option('wp_css_menu_home', $_REQUEST['home']);
 
           update_option('excluded_css_dropdown_pages', $_REQUEST['pages']);
      $updated = true;
@@ -488,10 +528,15 @@ function CSSDropDownMenu_options () {
 	    $width = get_option('wp_css_menu_width');
 	    $page = get_option('wp_css_start_page');
 	    $extra = get_option('wp_css_extra');
+	    $urls = get_option('wp_css_menu_urls');
 	    if (get_option('wp_css_menu_dynamic'))
         $checked = 'checked="checked"';
       else
         $checked = '';
+      if (get_option('wp_css_menu_home'))
+        $hchecked = 'checked="checked"';
+      else
+        $hchecked = '';
 
 ?>
 
@@ -499,11 +544,17 @@ function CSSDropDownMenu_options () {
 
 	<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 
-		
+		<h3>Home Page Button? <input type="checkbox" name="home" value="1" <?php echo $hchecked; ?>></h3>
 
     <h3>Exclude Pages by ID</h3>
 
 		<p><b>Pages: </b><input type="text" name="pages" value="<?php echo $pages; ?>"></p>
+		
+		<p>Seperate by commas if putting in multiple pages, e.g. 12,23,43.</p>
+		
+		<h3>Remove URLs by ID</h3>
+
+		<p><b>Pages: </b><input type="text" name="urls" value="<?php echo $urls; ?>"></p>
 
     <p>Seperate by commas if putting in multiple pages, e.g. 12,23,43.</p>
     
