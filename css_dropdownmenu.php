@@ -3,72 +3,11 @@
    /*
 
    Plugin Name: WP CSS Dropdown Menu
-
    Plugin URI: http://zackdesign.biz
-
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-
    Version: 2.2.2
-
    Author: Isaac Rowntree
-
    Author URI: http://www.zackdesign.biz
-   
-Changelog:
-
-2.2.2
-
-- Can now add a home-page by ticking it in settings
-- List of IDs for which to not make an URL
-
-2.2.1
-
-- Added a way to make wrapped pages auto-dynamically factored in
-- Fixed some minor bugs
-
-2.2
-
-- Added a start parent
-- Moved dynamic width to settings only. No real point in forcing it to be stuck in functions.php.
-
-2.1 
-
-- Makes it so that if the width of top elements are wider than a certain amount the bottom level grows with it
-
-2.0
-
-- Proper dynamic width using CSS
-- Added an admin option to set which class we use when generating dynamic width css, defaults to .menu
-
-1.2
-
-- Noticed some things weren't working quite right (e.g. extra <ul></ul> tags were apearing when no children were present)
-
-1.1
-
-- Able to pass certain directives to tell the menu what things to output
-
-1.0
-
-- Added third level flyouts
-
-0.3
-
-- Fixed some bugs with the code. Sorry, I accidentally left some test code in!
-
-0.2
-
-- Added admin page
-
-- Can now stop certain pages showing... at the moment just doesn't fetch the pages (some parentless child pages
-
-  are fetched but now shown)
-
-
-
-0.1
-
-- First build
 
    */
 
@@ -77,301 +16,42 @@ Changelog:
 
 
 	function curPageURL() {
-
-	 $pageURL = 'http';
-
-	 if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
-
-	 $pageURL .= "://";
-
-	 if ($_SERVER["SERVER_PORT"] != "80") {
-
-	  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-
-	 } else {
-
-	  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-
-	 }
-
-	 return $pageURL;
-
+	   $pageURL = 'http';
+	   if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+	   $pageURL .= "://";
+	   if ($_SERVER["SERVER_PORT"] != "80") {
+	    $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+	   } else {
+	   $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+	   }
+	  return $pageURL;
 	}
 
    function wp_css_dropdownmenu($no_html = false, $before_plugin = '<div class="menu"><ul>', $after_plugin = '</ul></div>')
-
    {
      $before = '<ul>';
-
-	   $after = '</ul>';
-		
+	   $after = '</ul>';		
 		 $articles = get_pages_from_DB();
-
-		  //	Show the results
-
-		  $result  =  "";
-
-
-		$parents = array();
-
-		$children = array();
-		
-		$sub_children = array();
-		
-		$no_urls = get_option('wp_css_menu_urls');
-		$urls = explode(',',$no_urls);
-
+		 $no_urls = get_option('wp_css_menu_urls');
+		 $urls = explode(',',$no_urls);
+     
     $start_parent = get_option('wp_css_start_page');
     if (empty($start_parent))
         $start_parent = 0;
-
-  		if ( $articles ) {
-
-	  		//	Display the post titles with permalinks
-
-			  foreach ( $articles as $display ) {
-
-				  
-
-				  if ($display->post_parent == $start_parent)
-
-				  {
-					    array_push($parents, $display);
-				  }
-			}
-			
-			if ( $articles ) {
-			   foreach ( $articles as $display ) {
-			   
-			   
-			   $sub_child = true;
-			       foreach ( $parents as $parent ) {
-			
-			        
-              
-              foreach ($parents as $p)
-				      {
-                  if ($display->post_parent == $p->ID)
-                  {
-                      $sub_child = false;
-                  }    
-              }
-              
-
-           }              
-              if (!$sub_child)
-                  array_push($children, $display);
-              else
-                  array_push($sub_children, $display);
-         }
-      }
-      
-      if (get_option('wp_css_menu_home'))
-          $result .= '<li>
-
-          <a href="'.get_bloginfo('url').'" rel="bookmark" title="'.get_bloginfo('name').'">Home<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]></a><![endif]--></li>';
-
-      foreach ( $parents as $parent ) {
-
-				
-
-				$children_result='';
-
-				$child_exists ='';
-				
-				  //check if children exists
-
-				foreach ( $children as $child ) {
-
-
-
-					if($parent->ID == $child->post_parent)
-
-					{
-
-				      $schildren_result='';
-
-				      $schild_exists ='';
-              // Do third level
-              
-              foreach ( $sub_children as $schild ) {
-                    
-                    if ($child->ID == $schild->post_parent)
-                    {
-                
-                        $schildListTitle	=	stripslashes(str_replace('"', '', $schild->post_title));
-                        
-                        if((strcmp  ( curPageURL()  , post_permalink($schild->ID) ) == 0) )
-                        {
-                            $schildren_result .= '
-                            <li class="current_page_item">';
-                        }
-                        else
-                        {
-                            $schildren_result .= '<li>';
-                        }
-                        
-                        foreach ($urls as $u)
-                        {
-                            if ($schild-ID == $u)
-                                $url = '#';
-                            else
-                                $url = post_permalink($schild->ID);
-                        }
-                        
-                        $schildren_result .= '
-                        <a href="' . $url . '" rel="bookmark" title="Permanent link &quot;' . $schildListTitle . '&quot;">' . $schildListTitle . '</a></li>';
-                
-                    }
-              }
-              
-              $schildren_result2 ='';
-              
-              if ( ($schildren_result != '') && $schildren_result)
-              {
-              
-              					$schildren_result2 = '<!--[if IE 7]><!--></a><!--<![endif]-->
-<!--[if lte IE 6]><table><tr><td><![endif]-->
-
-	<ul>'.$schildren_result.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
-	</li>';
-              
-              }
-              else
-                  $schildren_result2 = '0';
-              
-              
-              
-
-						$childListTitle	=	stripslashes(str_replace('"', '', $child->post_title));
-
-						
-
-						if((strcmp  ( curPageURL()  , post_permalink($child->ID) ) == 0) )
-
-					   {	
-
-							$children_result .= '
-
-              <li class="current_page_item">';
-
-					   }
-
-					   else
-
-						{
-
-						   $children_result .= '<li>';
-
-						}
-						
-						foreach ($urls as $u)
-            {
-                if ($child-ID == $u)
-                    $url = '#';
-                else
-                    $url = post_permalink($child->ID);
-            }
-						
-						if ($schildren_result2)
-						    $children_result .= '
-
-            <a href="' . $url . '" rel="bookmark" title="Permanent link &quot;' . $childListTitle . '&quot;">' . $childListTitle . $schildren_result2;
-						else						
-						    $children_result .= '
-
-            <a href="' . $url . '" rel="bookmark" title="Permanent link &quot;' . $childListTitle . '&quot;">' . $childListTitle . '</a></li>';
-
-					}
-
-				}
-
-
-
-				$children_result2 ='';
-
-
-
-				if ( ($children_result != '') && $children_result)
-
-				{
-
-					$children_result2 = '
-
-          <!--[if lte IE 6]><table><tr><td><![endif]-->
-
-	<ul>'.$children_result.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]-->
-
-</li>';
-
-				}
-
-				else
-
-				    $children_result2 = '<!--[if lte IE 6]></a><![endif]--></li>';
-
-
-
-				  //	Format the title
-
-				  $listTitle	=	stripslashes(str_replace('"', '', $parent->post_title));
-
-				
-
-				 //	Set up the return string
-
-			
-
-					//if post_parent is not 0 then add that to the array with that id
-
-					if((strcmp  ( curPageURL()  , post_permalink($parent->ID) ) == 0) )
-
-					{	
-
-						$result .= '
-
-            <li class="current_page_item">';
-
-					}
-
-					else
-
-					{
-
-						   $result .= '<li>';
-
-					}					
-
-						foreach ($urls as $u)
-            {
-                if ($parent->ID == $u)
-                    $url = '#';
-                else
-                    $url = post_permalink($parent->ID);
-            }
-
-				  $result  .=	'
-
-          <a href="' . $url . '" rel="bookmark" title="Permanent link &quot;' . $listTitle . '&quot;">' . $listTitle .'<!--[if IE 7]><!--></a><!--<![endif]-->'.$children_result2 ;
-
-			}
-
-		 }else {
-
-			//	There were no posts in the category
-
-			$result	.=	"<p>No page posts</p>\n";
-
-		}
-
-		
-    if ($no_html)
-        echo $result;
-    else
-        echo $before_plugin.$result.$after_plugin;	
-
-
-   }
+     
+     if (get_option('wp_css_menu_home'))
+         $result = '<li><a href="'.get_bloginfo('url').'" rel="bookmark" title="'.get_bloginfo('name').'">Home</a></li>';
+     else
+         $result = '';
+     
+     $result = build_CSSDropDown_menu($articles, $start_parent, $urls, $result);
+     
+     if (empty($result))
+         $result = '<li>No page posts to display.</li>';
+     
+		  //	Show the results
+		 echo $before_plugin.$result.$after_plugin;	      
+  }
 
 
 function get_pages_from_DB ( $parent = -1 )
@@ -471,8 +151,6 @@ function CSSDropDownMenu_options () {
      echo '</div>';
 
 }
-
-
 
 
 
@@ -587,6 +265,39 @@ function CSSDropDownMenu_options () {
 
 	}
 
+function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
+{    
+    foreach ($pages as $page)
+    {      
+        if ($page->post_parent == $cur_level)
+        {
+            $listTitle	=	stripslashes(str_replace('"', '', $page->post_title));
+            if (is_array($no_urls))
+            {
+                foreach ($no_urls as $u)
+                {
+                    if ($page->ID == $u)
+                    {
+                        $url = '#';
+                        break;
+                    }
+                    else
+                        $url = post_permalink($page->ID);
+                }
+            }
+            $result .= '<li><a href="' . $url . '" rel="bookmark" title="' . $listTitle . '">' . $listTitle;
+            
+            $children = build_CSSDropDown_menu($pages,$page->ID,$no_urls);
+          
+            if (!empty($children))
+                $result .= '<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]--><ul>'.$children.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>';
+            else
+                $result .= '</a></li>';
+        }
+    }
+    
+    return $result;
+}
 	
 
 	function setupCSSDropDownMenuAdminPanel()
