@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 2.2.2
+   Version: 2.3
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
