@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 2.3
+   Version: 2.3.1
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -38,9 +38,12 @@
     $start_parent = get_option('wp_css_start_page');
     if (empty($start_parent))
         $start_parent = 0;
+        
+    if (is_home() || is_page('home'))
+        $class="current_page";
      
      if (get_option('wp_css_menu_home'))
-         $result = '<li><a href="'.get_bloginfo('url').'" rel="bookmark" title="'.get_bloginfo('name').'">Home</a></li>';
+         $result = '<li class="menu_item '.$class.'"><a href="'.get_bloginfo('url').'" rel="bookmark" title="'.get_bloginfo('name').'">Home</a></li>';
      else
          $result = '';
      
@@ -285,7 +288,15 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
                         $url = post_permalink($page->ID);
                 }
             }
-            $result .= '<li><a href="' . $url . '" rel="bookmark" title="' . $listTitle . '">' . $listTitle;
+            
+            // Need to find the current page the user is visiting and add the class accordingly
+            global $post;
+            if ($post->ID == $page->ID)
+                $class="class='menu_item menu_item_$page->ID current_page'";
+            else
+                $class="class='menu_item menu_item_$page->ID'";
+            
+            $result .= '<li '.$class.'><a href="' . $url . '" rel="bookmark" title="' . $listTitle . '">' . $listTitle;
             
             $children = build_CSSDropDown_menu($pages,$page->ID,$no_urls);
           
