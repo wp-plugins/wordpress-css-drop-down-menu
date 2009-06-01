@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 2.3.1
+   Version: 2.3.2
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -288,18 +288,29 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
                         $url = post_permalink($page->ID);
                 }
             }
+            // Get children
+            $children = build_CSSDropDown_menu($pages,$page->ID,$no_urls);
+            
+            if (strstr($children, 'current_page'))
+                $parent = 'current_parent';
+            else if (!empty($children))
+                $parent = 'parent';
             
             // Need to find the current page the user is visiting and add the class accordingly
             global $post;
             if ($post->ID == $page->ID)
-                $class="class='menu_item menu_item_$page->ID current_page'";
+            {
+                $class="class='menu_item menu_item_$page->ID current_page $parent'";
+                $aclass="class='menu_item_link menu_item_link_$page->ID current_page_link $parent'";
+            }
             else
-                $class="class='menu_item menu_item_$page->ID'";
+            {
+                $class="class='menu_item menu_item_$page->ID $parent'";
+                $aclass="class='menu_item_link menu_item_link_$page->ID $parent'";
+            }
             
-            $result .= '<li '.$class.'><a href="' . $url . '" rel="bookmark" title="' . $listTitle . '">' . $listTitle;
+            $result .= '<li '.$class.'><a href="' . $url . '" '.$aclass.' rel="bookmark" title="' . $listTitle . '">' . $listTitle;
             
-            $children = build_CSSDropDown_menu($pages,$page->ID,$no_urls);
-          
             if (!empty($children))
                 $result .= '<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]--><ul>'.$children.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>';
             else

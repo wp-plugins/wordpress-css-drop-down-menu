@@ -4,7 +4,7 @@ http://www.zackdesign.biz/wp-plugins/42
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
 Requires at least: 2.3
 Tested up to: 2.7.1
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 
 Creates a DYNAMIC MULTI-level navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS.
 
@@ -45,6 +45,10 @@ That's what I'm here for. I do Wordpress sites for many people in a professional
 can do the same for you. Check out www.zackdesign.biz
 
 == ChangeLOG ==
+
+2.3.2
+
+- Further classes. New link ones, a new parent class, and the return of the current_page class.
 
 2.3.1
 
