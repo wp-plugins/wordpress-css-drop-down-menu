@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 2.3.2
+   Version: 2.3.3
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -309,7 +309,9 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
                 $aclass="class='menu_item_link menu_item_link_$page->ID $parent'";
             }
             
-            $result .= '<li '.$class.'><a href="' . $url . '" '.$aclass.' rel="bookmark" title="' . $listTitle . '">' . $listTitle;
+	    $title = apply_filters( 'the_title', htmlspecialchars($listTitle) );
+	    
+            $result .= '<li '.$class.'><a href="' . $url . '" '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
             
             if (!empty($children))
                 $result .= '<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]--><ul>'.$children.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>';

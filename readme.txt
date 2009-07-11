@@ -4,7 +4,7 @@ http://www.zackdesign.biz/wp-plugins/42
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
 Requires at least: 2.3
 Tested up to: 2.7.1
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 
 Creates a DYNAMIC MULTI-level navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS.
 
@@ -19,10 +19,11 @@ Features at a glance:
 * Simply tick a box to get a 'Home' button added in automatically!
 * Dynamic menu item widths! Simply say how wide you want the menu to be and all the menu items will be automaticall resized whenever you add or delete them!
 * Verified to work with IE8
+* Fixed multi-lang filter support
 
 If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
 
-It uses [Stu Nicholl’s final drop-down code](http://www.cssplay.co.uk/menus/final_drop.html "Stu Nicholl") which is a complete CSS solution - no Javascript required!! With the plugin I’ve included his CSS but not imported it directly as it’s best that you modify it to suit your theme, and you also need to read Stu’s copyright notice on the page I’ve linked to (a donation to his fund would also be good). Other Stu Nicholl menu CSS should technically work with this plugin also! Just try it and see!
+It uses [Stu Nicholl's final drop-down code](http://www.cssplay.co.uk/menus/final_drop.html "Stu Nicholl") which is a complete CSS solution - no Javascript required!! With the plugin I've included his CSS but not imported it directly as it's best that you modify it to suit your theme, and you also need to read Stu's copyright notice on the page I'e linked to (a donation to his fund would also be good). Other Stu Nicholl menu CSS should technically work with this plugin also! Just try it and see!
 
 == Installation ==
 
@@ -45,6 +46,11 @@ That's what I'm here for. I do Wordpress sites for many people in a professional
 can do the same for you. Check out www.zackdesign.biz
 
 == ChangeLOG ==
+
+2.3.3
+
+- HTML special chars for the title (noticed some XML errors)
+- Multi-lang plugins supported with apply_filter on post title...
 
 2.3.2
 
