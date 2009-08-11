@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 2.3.3
+   Version: 2.3.4
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -173,6 +173,7 @@ function CSSDropDownMenu_options () {
      update_option('wp_css_extra', $_REQUEST['extra_pages']);
      update_option('wp_css_menu_urls', $_REQUEST['urls']);
      update_option('wp_css_menu_home', $_REQUEST['home']);
+     update_option('wp_css_menu_parent_urls', $_REQUEST['parent_url']);
 
           update_option('excluded_css_dropdown_pages', $_REQUEST['pages']);
      $updated = true;
@@ -218,6 +219,10 @@ function CSSDropDownMenu_options () {
         $hchecked = 'checked="checked"';
       else
         $hchecked = '';
+      if (get_option('wp_css_menu_parent_urls'))
+        $pchecked = 'checked="checked"';
+      else
+        $pchecked = '';
 
 ?>
 
@@ -226,6 +231,8 @@ function CSSDropDownMenu_options () {
 	<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 
 		<h3>Home Page Button? <input type="checkbox" name="home" value="1" <?php echo $hchecked; ?>></h3>
+		
+		<h3>No URLs for Menu Parents? <input type="checkbox" name="parent_url" value="1" <?php echo $pchecked; ?>></h3>
 
     <h3>Exclude Pages by ID</h3>
 
@@ -275,6 +282,8 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
         if ($page->post_parent == $cur_level)
         {
             $listTitle	=	stripslashes(str_replace('"', '', $page->post_title));
+	    
+	    // Go through list of 'no urls' and check this one
             if (is_array($no_urls))
             {
                 foreach ($no_urls as $u)
@@ -286,10 +295,17 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
                     }
                     else
                         $url = post_permalink($page->ID);
-                }
+		}
             }
-            // Get children
+	    
+	    // Get children
             $children = build_CSSDropDown_menu($pages,$page->ID,$no_urls);
+	    
+	    // If menu parents can't be clicked also check to see if there are children present
+	    if (get_option('wp_css_menu_parent_urls') && !empty($children))
+	    {
+		$url = '#';
+	    }
             
             if (strstr($children, 'current_page'))
                 $parent = 'current_parent';

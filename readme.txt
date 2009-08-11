@@ -3,8 +3,8 @@ Contributors: zackdesign
 http://www.zackdesign.biz/wp-plugins/42
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
 Requires at least: 2.3
-Tested up to: 2.7.1
-Stable tag: 2.3.3
+Tested up to: 2.8.3
+Stable tag: 2.3.4
 
 Creates a DYNAMIC MULTI-level navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS.
 
@@ -20,6 +20,7 @@ Features at a glance:
 * Dynamic menu item widths! Simply say how wide you want the menu to be and all the menu items will be automaticall resized whenever you add or delete them!
 * Verified to work with IE8
 * Fixed multi-lang filter support
+* Remove URLs from top-level parent pages with a click
 
 If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
 
@@ -46,6 +47,10 @@ That's what I'm here for. I do Wordpress sites for many people in a professional
 can do the same for you. Check out www.zackdesign.biz
 
 == ChangeLOG ==
+
+2.3.4
+
+Top-level parents optionally have no URL
 
 2.3.3
 
