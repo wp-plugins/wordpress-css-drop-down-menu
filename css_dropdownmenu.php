@@ -290,7 +290,7 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
                 {
                     if ($page->ID == $u)
                     {
-                        $url = '#';
+                        $url = false;
                         break;
                     }
                     else
@@ -304,7 +304,7 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
 	    // If menu parents can't be clicked also check to see if there are children present
 	    if (get_option('wp_css_menu_parent_urls') && !empty($children))
 	    {
-		$url = '#';
+		$url = false;
 	    }
             
             if (strstr($children, 'current_page'))
@@ -327,7 +327,10 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
             
 	    $title = apply_filters( 'the_title', htmlspecialchars($listTitle) );
 	    
-            $result .= '<li '.$class.'><a href="' . $url . '" '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
+	    if (!$url)
+	        $result .= '<li '.$class.'><a '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
+	    else
+	        $result .= '<li '.$class.'><a href="' . $url . '" '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
             
             if (!empty($children))
                 $result .= '<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]--><ul>'.$children.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>';
