@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 2.3.4
+   Version: 2.3.5
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -75,14 +75,22 @@ function get_pages_from_DB ( $parent = -1 )
          foreach ($pages as $page)
              $remove .= ' AND ID != ' . $page;
      }
+     
+      
+     
       $postSQL =  "SELECT 
 			$wpdb->posts.ID, 
 			$wpdb->posts.post_title,
 			$wpdb->posts.post_parent";
 			
 		$postSQL	.=	" FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' $parent AND $wpdb->posts.post_type = 'page'" . $remove;
-
-		$postSQL	.=	" ORDER BY $wpdb->posts.menu_order";
+      
+      $sorting = get_option('wp_css_menu_sort');
+      
+      if ($sorting == 'menu')
+          $postSQL	.=	" ORDER BY $wpdb->posts.menu_order";
+      else
+          $postSQL	.=	" ORDER BY $wpdb->posts.post_title";
 
 		  //	Get the results
 		  return $wpdb->get_results($postSQL);
@@ -174,6 +182,7 @@ function CSSDropDownMenu_options () {
      update_option('wp_css_menu_urls', $_REQUEST['urls']);
      update_option('wp_css_menu_home', $_REQUEST['home']);
      update_option('wp_css_menu_parent_urls', $_REQUEST['parent_url']);
+     update_option('wp_css_menu_sort', $_REQUEST['sort']);
 
           update_option('excluded_css_dropdown_pages', $_REQUEST['pages']);
      $updated = true;
@@ -211,6 +220,7 @@ function CSSDropDownMenu_options () {
 	    $page = get_option('wp_css_start_page');
 	    $extra = get_option('wp_css_extra');
 	    $urls = get_option('wp_css_menu_urls');
+	    $sorting = get_option('wp_css_menu_sort');
 	    if (get_option('wp_css_menu_dynamic'))
         $checked = 'checked="checked"';
       else
@@ -249,6 +259,10 @@ function CSSDropDownMenu_options () {
     <h3>Starting Root Page ID</h3>
     
     <p><b>Page: </b><input type="text" name="start_page" value="<?php echo $page; ?>"></p>
+    
+    <h3>Page Ordering</h3>
+    
+       <p><b>Choose:</b> <select name="sort"><option value="alpha" <?php if ($sorting == 'alpha' ) echo 'selected ="selected"'; ?>>Alphabetically</option><option value="menu" <?php if ($sorting == 'menu' ) echo 'selected ="selected"'; ?>>Menu Order</option></select></p>
     
     <h3>Dynamic Menu Width</h3>
 
