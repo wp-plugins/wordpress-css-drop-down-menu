@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 2.3.5
+   Version: 2.3.6
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -43,8 +43,14 @@
         $class="current_page";
      
      if (get_option('wp_css_menu_home'))
-         $result = '<li class="menu_item '.$class.'"><a href="'.get_bloginfo('url').'" rel="bookmark" title="'.get_bloginfo('name').'">Home</a></li>';
-     else
+     {
+         $text = get_option('wp_css_menu_hometext');
+	 if (!empty($text))
+             $result = '<li class="menu_item '.$class.'"><a href="'.get_bloginfo('url').'" rel="bookmark" title="'.get_bloginfo('name').'">'.$text.'</a></li>';
+	 else
+             $result = '<li class="menu_item '.$class.'"><a href="'.get_bloginfo('url').'" rel="bookmark" title="'.get_bloginfo('name').'">Home</a></li>';
+    }
+    else
          $result = '';
      
      $result = build_CSSDropDown_menu($articles, $start_parent, $urls, $result);
@@ -87,10 +93,10 @@ function get_pages_from_DB ( $parent = -1 )
       
       $sorting = get_option('wp_css_menu_sort');
       
-      if ($sorting == 'menu')
-          $postSQL	.=	" ORDER BY $wpdb->posts.menu_order";
-      else
+      if ($sorting == 'alpha')
           $postSQL	.=	" ORDER BY $wpdb->posts.post_title";
+      else
+          $postSQL	.=	" ORDER BY $wpdb->posts.menu_order";
 
 		  //	Get the results
 		  return $wpdb->get_results($postSQL);
@@ -183,6 +189,7 @@ function CSSDropDownMenu_options () {
      update_option('wp_css_menu_home', $_REQUEST['home']);
      update_option('wp_css_menu_parent_urls', $_REQUEST['parent_url']);
      update_option('wp_css_menu_sort', $_REQUEST['sort']);
+     update_option('wp_css_menu_hometext', $_REQUEST['home_text']);
 
           update_option('excluded_css_dropdown_pages', $_REQUEST['pages']);
      $updated = true;
@@ -220,7 +227,11 @@ function CSSDropDownMenu_options () {
 	    $page = get_option('wp_css_start_page');
 	    $extra = get_option('wp_css_extra');
 	    $urls = get_option('wp_css_menu_urls');
-	    $sorting = get_option('wp_css_menu_sort');
+	    $sorting = get_option('wp_css_menu_sort');	    
+	    $home = get_option('wp_css_menu_hometext');
+	    if (empty($home))
+	        $home = 'Home';   
+	    
 	    if (get_option('wp_css_menu_dynamic'))
         $checked = 'checked="checked"';
       else
@@ -240,7 +251,8 @@ function CSSDropDownMenu_options () {
 
 	<form method="post" action="<?php echo $_SERVER["REQUEST_URI"]; ?>">
 
-		<h3>Home Page Button? <input type="checkbox" name="home" value="1" <?php echo $hchecked; ?>></h3>
+		<h3>Home Page Button? <input type="checkbox" name="home" value="1" <?php echo $hchecked; ?>> </h3>
+		<p>Button text:  <input type="text" value="<?php echo $home; ?>" name="home_text" /></p>
 		
 		<h3>No URLs for Menu Parents? <input type="checkbox" name="parent_url" value="1" <?php echo $pchecked; ?>></h3>
 
@@ -325,6 +337,8 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
                 $parent = 'current_parent';
             else if (!empty($children))
                 $parent = 'parent';
+	    else
+	        $parent = '';
             
             // Need to find the current page the user is visiting and add the class accordingly
             global $post;
@@ -342,12 +356,15 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
 	    $title = apply_filters( 'the_title', htmlspecialchars($listTitle) );
 	    
 	    if (!$url)
-	        $result .= '<li '.$class.'><a '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
+	        $result .= '
+		<li '.$class.'><a '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
 	    else
-	        $result .= '<li '.$class.'><a href="' . $url . '" '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
+	        $result .= '
+		<li '.$class.'><a href="' . $url . '" '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
             
             if (!empty($children))
-                $result .= '<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]--><ul>'.$children.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>';
+                $result .= '<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
+		<ul>'.$children.'</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>';
             else
                 $result .= '</a></li>';
         }

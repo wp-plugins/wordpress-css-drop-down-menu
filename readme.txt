@@ -3,8 +3,8 @@ Contributors: zackdesign
 http://www.zackdesign.biz/wp-plugins/42
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
 Requires at least: 2.3
-Tested up to: 2.8.3
-Stable tag: 2.3.5
+Tested up to: 2.8.4
+Stable tag: 2.3.6
 
 Creates a DYNAMIC MULTI-level navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS.
 
@@ -47,7 +47,12 @@ Just to be clear, <?php wp_css_dropdownmenu(); ?> will give you default wrapping
 That's what I'm here for. I do Wordpress sites for many people in a professional capacity and
 can do the same for you. Check out www.zackdesign.biz
 
-== ChangeLOG ==
+== Changelog ==
+
+2.3.6
+
+- Now allows you to rename the additional 'Home' button
+- Added an extra 'else' to try and clear any unnecessary parent CSS
 
 2.3.5
 
