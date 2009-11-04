@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://zackdesign.biz
    Description: Creates a navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS, no Javascript.
-   Version: 2.3.6
+   Version: 2.3.7
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -27,22 +27,31 @@
 	  return $pageURL;
 	}
 
-   function wp_css_dropdownmenu($no_html = false, $before_plugin = '<div class="menu"><ul>', $after_plugin = '</ul></div>')
+   function wp_css_dropdownmenu($before_plugin = '<div class="menu"><ul>', $after_plugin = '</ul></div>', $start_id = 0, $show_home = true, $one_level = false)
    {
      $before = '<ul>';
 	   $after = '</ul>';		
 		 $articles = get_pages_from_DB();
 		 $no_urls = get_option('wp_css_menu_urls');
 		 $urls = explode(',',$no_urls);
-     
-    $start_parent = get_option('wp_css_start_page');
-    if (empty($start_parent))
-        $start_parent = 0;
+    
+    if ($start_id == '0')
+    {
+        if (is_user_logged_in())
+            $start_parent = get_option('wp_css_auth_ID');
+        else
+            $start_parent = get_option('wp_css_start_page');
+    
+        if (empty($start_parent))
+            $start_parent = 0;
+    }
+    else
+        $start_parent = $start_id;
         
     if (is_home() || is_page('home'))
         $class="current_page";
      
-     if (get_option('wp_css_menu_home'))
+     if (get_option('wp_css_menu_home') && $show_home)
      {
          $text = get_option('wp_css_menu_hometext');
 	 if (!empty($text))
@@ -53,10 +62,10 @@
     else
          $result = '';
      
-     $result = build_CSSDropDown_menu($articles, $start_parent, $urls, $result);
+     $result = build_CSSDropDown_menu($articles, $start_parent, $urls, $result, $one_level);
      
      if (empty($result))
-         $result = '<li>No page posts to display.</li>';
+         $result = '<!--<li>No page posts to display.</li>-->';
      
 		  //	Show the results
 		 echo $before_plugin.$result.$after_plugin;	      
@@ -142,7 +151,7 @@ function css_dropdownmenu_css() {
             * html .'.$class.' {width:'.$width.'px; w\idth:'.$width.'px;}
             .'.$class.' li {width:'.$li.'px; }
             .'.$class.' a, .'.$class.' a:visited {width:'.$a.'px; }
-            * html .'.$class.' a, * html .'.$class.' a:visited {width:'.$a.'px; w\idth:'.$a.'px;}
+            * html .'.$class.' a, * html .'.$class.' a:visited {width:'.$a.'px; w\idth:'.($a-2).'px;}
             .'.$class.' ul ul a, .'.$class.' ul ul a:visited {width:'.$lili.'px;}
             * html .'.$class.' ul ul a, * html .'.$class.' ul ul a:visited {width:'.$aa.'px;w\idth:'.$lili.'px;}       
             .'.$class.' ul ul ul {width:'.$li.'px; left:'.$li.'px}
@@ -183,6 +192,7 @@ function CSSDropDownMenu_options () {
      update_option('wp_css_menu_dynamic', $_REQUEST['dynamic']);
      update_option('wp_css_menu_class', $_REQUEST['cssclass']);
      update_option('wp_css_start_page', $_REQUEST['start_page']);
+     update_option('wp_css_auth_ID', $_REQUEST['auth_ID']);
      update_option('wp_css_menu_width', $_REQUEST['menu_width']);
      update_option('wp_css_extra', $_REQUEST['extra_pages']);
      update_option('wp_css_menu_urls', $_REQUEST['urls']);
@@ -225,6 +235,7 @@ function CSSDropDownMenu_options () {
 	    $class = get_option('wp_css_menu_class');
 	    $width = get_option('wp_css_menu_width');
 	    $page = get_option('wp_css_start_page');
+	    $auth_ID = get_option('wp_css_auth_ID');
 	    $extra = get_option('wp_css_extra');
 	    $urls = get_option('wp_css_menu_urls');
 	    $sorting = get_option('wp_css_menu_sort');	    
@@ -268,9 +279,12 @@ function CSSDropDownMenu_options () {
 
     <p>Seperate by commas if putting in multiple pages, e.g. 12,23,43.</p>
     
-    <h3>Starting Root Page ID</h3>
+    <h3>Authenticated Menu</h3>
     
-    <p><b>Page: </b><input type="text" name="start_page" value="<?php echo $page; ?>"></p>
+    <p><b>Authenticated Starting ID: </b><input type="text" name="auth_ID" value="<?php echo $auth_ID; ?>"></p>
+    <p>Give logged-in users a different menu starting on a given page ID.</p>
+    <p><b>Non-Authenticated ID: </b><input type="text" name="start_page" value="<?php echo $page; ?>"></p>
+    <p>Use this if you have no need for authentication but want a different starting parent ID other than 0, or to give non-authenticated users a menu.</p>
     
     <h3>Page Ordering</h3>
     
@@ -301,7 +315,7 @@ function CSSDropDownMenu_options () {
 
 	}
 
-function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
+function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '', $one_level = false)
 {    
     foreach ($pages as $page)
     {      
@@ -325,7 +339,8 @@ function build_CSSDropDown_menu($pages, $cur_level, $no_urls, $result = '')
             }
 	    
 	    // Get children
-            $children = build_CSSDropDown_menu($pages,$page->ID,$no_urls);
+	    if (!$one_level)
+          $children = build_CSSDropDown_menu($pages,$page->ID,$no_urls);
 	    
 	    // If menu parents can't be clicked also check to see if there are children present
 	    if (get_option('wp_css_menu_parent_urls') && !empty($children))

@@ -4,7 +4,7 @@ http://www.zackdesign.biz/wp-plugins/42
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
 Requires at least: 2.3
 Tested up to: 2.8.4
-Stable tag: 2.3.6
+Stable tag: 2.3.7
 
 Creates a DYNAMIC MULTI-level navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS.
 
@@ -22,6 +22,7 @@ Features at a glance:
 * Fixed multi-lang filter support
 * Remove URLs from top-level parent pages with a click
 * Alphabetical or menu order sorting
+* Set a different menu for logged-in or authenticated users
 
 If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
 
@@ -35,8 +36,8 @@ It uses [Stu Nicholl's final drop-down code](http://www.cssplay.co.uk/menus/fina
 4. Place `<?php wp_css_dropdownmenu(); ?>` in your header.php file (or anywhere you want the drop-down menu to render)
 5. You may now begin modifying the CSS to suit.
 6. Optionally you can visit the Wordpress Options -> CSS Drop Down Admin menu to exclude certain pages from showing.
-7. Now comes with the ability to set before and after HTML to wrap around the menu like so: `<?php wp_css_dropdownmenu(0, '<div class="menu"><ul>', '</ul></div>'); ?>`
-   Or you can have no wrapping whatsoever: `<?php wp_css_dropdownmenu(1); ?>`
+7. Now comes with the ability to set before and after HTML to wrap around the menu like so: `<?php wp_css_dropdownmenu('<div class="menu"><ul>', '</ul></div>'); ?>`
+   Or you can have no wrapping whatsoever: `<?php wp_css_dropdownmenu('',''); ?>`
 
 Just to be clear, <?php wp_css_dropdownmenu(); ?> will give you default wrapping which is what I gave in the first example. If you want a custom wrapping just use the first example I gave, but be sure to include the menu class.
 
@@ -48,6 +49,11 @@ That's what I'm here for. I do Wordpress sites for many people in a professional
 can do the same for you. Check out www.zackdesign.biz
 
 == Changelog ==
+
+2.3.7
+
+- Authenticated menus
+- Ability to set further fine-grained controls from the code
 
 2.3.6
 
