@@ -1,0 +1,174 @@
+=== Wordpress CSS Drop-down Menu ===
+Contributors: zackdesign
+http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
+Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
+Requires at least: 2.8
+Tested up to: 2.9
+Stable tag: 3.0
+
+Creates a dynamic multi-level navigation menu of pages, links, and post categories. Includes cross-browser-friendly CSS and an add-on Superfish plugin for Javascript (optional).
+
+== Description ==
+
+Features at a glance:
+
+* Multi-level dropdown
+* Multi-level left/right flyouts
+* Support for Superfish Javascript
+* Submenu support (shows the parent page, and the current page when viewing that current page)
+* Now widgetised to make it really easy to add multiple dropdowns anywhere on the page you have sidebars
+* Ability to create the menu wherever you want with PHP Classes
+* Pages, post categories, and links are all selectable and highly configurable to display however you want on whatever widget or manually-set sidebar you wish
+* Leverages the new Wordpress 2.8 widget settings to allow quick and easy multiple widget instances
+
+If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
+
+It uses [Stu Nicholl's final drop-down code](http://www.cssplay.co.uk/menus/final_drop.html "Stu Nicholl") which is a complete CSS solution - no Javascript required!!
+
+You can look on [Stu's site for other drop-down code](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus") as I got the flyout left and right code from there.
+
+Most of his CSS should work just fine with the menu. I've made it so that the plugin automatically finds menu.css in the plugin's folder and loads it in your Wordpress site so you can instantly see how it will look. If you want to create your own CSS simply create menu.css in your theme's root directory and the plugin will load that automatically for you.
+
+Please note that if you're upgrading you will need to change your theme files to suit the new approach. See Installation for further information.
+
+== Installation ==
+
+1. Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
+2. Activate the plugin through the 'Plugins' menu in WordPress
+4. Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). Alternatively just manually reference the class as shown below:
+
+<?php  $myMenu = new CSSDropDownMenu(); /* Optionally place options here */ $myMenu->show(); ?>
+
+Note: The reason I recommend you add a sidebar to your header is simply because it's easier to edit than going in and editing the PHP every time you want to change something. Remember, a 'sidebar' is a misnomer, really it should just be called a 'widget area'.
+
+5. You may now begin modifying the CSS to suit, and editing your widget options to your taste. You can also activate the JS addon plugin to use Superfish. This is a different CSS file that you will be using. In future versions I'll make this process easier to use.
+
+Menu options (if manually coding):
+
+          $myMenu->before_menu - Defaults to <div class="menu"><ul>, can be anything you like, and you can add wrapping HTML for manually defined links here. The plugin will actually change the CSS classes in this variable only if it is in its default state so if you're wondering why the CSS isn't working check this.
+	  $myMenu->after_menu - Defaults to </ul></div>, can be anything you like, and you can add wrapping HTML for manually defined links here. 
+	  $myMenu->orientation - Values are 'top', 'right', 'left' - default is 'top'
+          $myMenu->home - Home page text, default is 'Home'
+          $myMenu->exclude_pid - Page IDs to exclude, comma seperated
+          $myMenu->exclude_purl - Page URLs removed by ID, comma seperated
+          $myMenu->show_pages - Show pages, default is '1', expected values 0,1
+          $myMenu->parent_urls - Remove all parent URLs, default is '0', expected values 0,1
+          $myMenu->subpages - Show subpages only (also shows parent page), default is '0', expected values 0,1
+          $myMenu->auth_id - Starting root ID of authenticated user, default is empty
+          $myMenu->non_auth_id - Starting root ID of non-authenticated user or just starting ID of menu, default is empty
+          $myMenu->exclude_lid - Remove link categories based on ID, comma seperated
+          $myMenu->show_links - Show links, default is '0', expected values 0,1
+          $myMenu->exclude_cid - Exclude post categories by ID, comma seperated
+          $myMenu->show_cats - Show post categories, default is '0', comma seperated
+          $myMenu->start_cid - Starting root ID of post categories, default is empty
+
+== Frequently Asked Questions ==
+
+= I Need HELP!!! =
+
+That's what I'm here for. I do Wordpress sites for many people in a professional capacity and
+can do the same for you. Check out www.zackdesign.biz
+
+== Changelog ==
+
+3.0
+
+- Uses all the Wordpress heirarchical elements - links, post categories, pages
+- Attempts to make the installation process as simple as possible for non-savvy users (Auto CSS inclusion, allows user to define their own, user-friendly improvements)
+- Includes sub-plugin - the superfish menu dropdown script
+- Additional links in the plugin menu so that the user can quickly find the plugin setup area
+- Updated README file to reflect new changes and all links to Zack Design are now for this plugin category
+- Rewritten for PHP Classes
+- Widgetised!!!
+
+2.3.7
+
+- Authenticated menus
+- Ability to set further fine-grained controls from the code
+- Added some extra code to try and make IE6 dynamic widths work properly
+
+2.3.6
+
+- Now allows you to rename the additional 'Home' button
+- Added an extra 'else' to try and clear any unnecessary parent CSS
+
+2.3.5
+
+- Alphabetical sorting
+
+2.3.4
+
+- Top-level parents optionally have no URL
+
+2.3.3
+
+- HTML special chars for the title (noticed some XML errors)
+- Multi-lang plugins supported with apply_filter on post title...
+
+2.3.2
+
+- Further classes. New link ones, a new parent class, and the return of the current_page class.
+
+2.3.1
+
+- Added classes back into the <li> HTML elements. Sorry! Forgot to add them back in when changing over the code...
+
+2.3
+
+- Minor bugfixes
+  - list of IDs for which to not make an URL fixed up so that you can put in more than one
+  - found some bugs in menu children URL removal
+  - IE8 testing - Now works in IE8!!!
+- Completely re-written recursive menu generator. You can have as many levels as you can write CSS for! :D
+
+2.2.2
+
+- Can now add a home-page by ticking it in settings
+- List of IDs for which to not make an URL
+
+2.2.1
+
+- Added a way to make wrapped pages auto-dynamically factored in
+- Fixed some minor bugs
+
+2.2
+
+- Added a start parent
+- Moved dynamic width to settings only. No real point in forcing it to be stuck in functions.php.
+
+2.1 
+
+- Makes it so that if the width of top elements are wider than a certain amount the bottom level grows with it
+
+2.0
+
+- Proper dynamic width using CSS
+- Added an admin option to set which class we use when generating dynamic width css, defaults to .menu
+
+1.2
+
+- Noticed some things weren't working quite right (e.g. extra <ul></ul> tags were apearing when no children were present)
+
+1.1
+
+- Able to pass certain directives to tell the menu what things to output
+
+1.0
+
+- Added third level flyouts
+
+0.3
+
+- Fixed some bugs with the code. Sorry, I accidentally left some test code in!
+
+0.2
+
+- Added admin page
+
+- Can now stop certain pages showing... at the moment just doesn't fetch the pages (some parentless child pages
+  are fetched but now shown)
+
+
+0.1
+
+- First build
