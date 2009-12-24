@@ -35,13 +35,34 @@ Please note that if you're upgrading you will need to change your theme files to
 
 1. Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). Alternatively just manually reference the class as shown below:
+3. Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). 
+
+PHP for your header.php:  
+
+if ( function_exists ( dynamic_sidebar('menu') ) ) : dynamic_sidebar ('menu'); endif; 
+
+
+PHP for your functions file: 
+
+if ( function_exists ('register_sidebar')) { 
+    register_sidebar( array(
+		'name' => __('Menu', 'menu'),
+		'id' => 'menu',
+		'description' => __('Shows a dropdown menu in the header.', 'menu'),
+		'before_widget' => '',
+		'after_widget' => '',
+		'before_title' => '',
+		'after_title' => ''
+	) );
+}
+
+Alternatively just manually reference the class as shown below:
 
   $myMenu = new CSSDropDownMenu(); /* Optionally place options here */ $myMenu->show(); 
 
 Note: The reason I recommend you add a sidebar to your header is simply because it's easier to edit than going in and editing the PHP every time you want to change something. Remember, a 'sidebar' is a misnomer, really it should just be called a 'widget area'.
 
-4. You may now begin modifying the CSS to suit, and editing your widget options to your taste. You can also activate the JS addon plugin to use Superfish. This is a different CSS file that you will be using. In future versions I'll make this process easier to use.
+4. You may now begin modifying the CSS to suit (menu.css in the wordpress plugin editor, or create your own in your theme directory), and editing your widget options to your taste. You can also activate the JS addon plugin to use Superfish. This is a different CSS file that you will be using. In future versions I'll make this process easier to use.
 
 Menu options (if manually coding):
 
@@ -61,6 +82,8 @@ Menu options (if manually coding):
           $myMenu->exclude_cid - Exclude post categories by ID, comma seperated
           $myMenu->show_cats - Show post categories, default is '0', comma seperated
           $myMenu->start_cid - Starting root ID of post categories, default is empty
+
+5. For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ PageMash).
 
 == Frequently Asked Questions ==
 
