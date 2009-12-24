@@ -35,13 +35,13 @@ Please note that if you're upgrading you will need to change your theme files to
 
 1. Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
 2. Activate the plugin through the 'Plugins' menu in WordPress
-4. Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). Alternatively just manually reference the class as shown below:
+3. Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). Alternatively just manually reference the class as shown below:
 
-<?php  $myMenu = new CSSDropDownMenu(); /* Optionally place options here */ $myMenu->show(); ?>
+  $myMenu = new CSSDropDownMenu(); /* Optionally place options here */ $myMenu->show(); 
 
 Note: The reason I recommend you add a sidebar to your header is simply because it's easier to edit than going in and editing the PHP every time you want to change something. Remember, a 'sidebar' is a misnomer, really it should just be called a 'widget area'.
 
-5. You may now begin modifying the CSS to suit, and editing your widget options to your taste. You can also activate the JS addon plugin to use Superfish. This is a different CSS file that you will be using. In future versions I'll make this process easier to use.
+4. You may now begin modifying the CSS to suit, and editing your widget options to your taste. You can also activate the JS addon plugin to use Superfish. This is a different CSS file that you will be using. In future versions I'll make this process easier to use.
 
 Menu options (if manually coding):
 
