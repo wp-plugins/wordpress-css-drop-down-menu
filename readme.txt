@@ -1,45 +1,66 @@
 === Wordpress CSS Drop-down Menu ===
 Contributors: zackdesign
-http://www.zackdesign.biz/wp-plugins/42
-Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude
-Requires at least: 2.3
-Tested up to: 2.8.4
-Stable tag: 2.3.7
+http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
+Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
+Requires at least: 2.8
+Tested up to: 2.9
+Stable tag: 3.0
 
-Creates a DYNAMIC MULTI-level navigation menu of pages with dropdown menus for child pages. Uses ONLY cross-browser friendly CSS.
+Creates a dynamic multi-level navigation menu of pages, links, and post categories. Includes cross-browser-friendly CSS and an add-on Superfish plugin for Javascript (optional).
 
 == Description ==
 
 Features at a glance:
 
-* Multi-level dropdown (that's right! you're only limited by your imagination and your CSS skills)
-* Exclude pages
-* Exclude page URLs (for parent pages without content)
-* Set a root node for your menu
-* Simply tick a box to get a 'Home' button added in automatically!
-* Dynamic menu item widths! Simply say how wide you want the menu to be and all the menu items will be automaticall resized whenever you add or delete them!
-* Verified to work with IE8
-* Fixed multi-lang filter support
-* Remove URLs from top-level parent pages with a click
-* Alphabetical or menu order sorting
-* Set a different menu for logged-in or authenticated users
+* Multi-level dropdown
+* Multi-level left/right flyouts
+* Support for Superfish Javascript
+* Submenu support (shows the parent page, and the current page when viewing that current page)
+* Now widgetised to make it really easy to add multiple dropdowns anywhere on the page you have sidebars
+* Ability to create the menu wherever you want with PHP Classes
+* Pages, post categories, and links are all selectable and highly configurable to display however you want on whatever widget or manually-set sidebar you wish
+* Leverages the new Wordpress 2.8 widget settings to allow quick and easy multiple widget instances
 
 If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
 
-It uses [Stu Nicholl's final drop-down code](http://www.cssplay.co.uk/menus/final_drop.html "Stu Nicholl") which is a complete CSS solution - no Javascript required!! With the plugin I've included his CSS but not imported it directly as it's best that you modify it to suit your theme, and you also need to read Stu's copyright notice on the page I'e linked to (a donation to his fund would also be good). Other Stu Nicholl menu CSS should technically work with this plugin also! Just try it and see!
+It uses [Stu Nicholl's final drop-down code](http://www.cssplay.co.uk/menus/final_drop.html "Stu Nicholl") which is a complete CSS solution - no Javascript required!!
+
+You can look on [Stu's site for other drop-down code](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus") as I got the flyout left and right code from there.
+
+Most of his CSS should work just fine with the menu. I've made it so that the plugin automatically finds menu.css in the plugin's folder and loads it in your Wordpress site so you can instantly see how it will look. If you want to create your own CSS simply create menu.css in your theme's root directory and the plugin will load that automatically for you.
+
+Please note that if you're upgrading you will need to change your theme files to suit the new approach. See Installation for further information.
 
 == Installation ==
 
-1. Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory
-2. Copy the CSS from `theme_css` to your theme CSS file
-3. Activate the plugin through the 'Plugins' menu in WordPress
-4. Place `<?php wp_css_dropdownmenu(); ?>` in your header.php file (or anywhere you want the drop-down menu to render)
-5. You may now begin modifying the CSS to suit.
-6. Optionally you can visit the Wordpress Options -> CSS Drop Down Admin menu to exclude certain pages from showing.
-7. Now comes with the ability to set before and after HTML to wrap around the menu like so: `<?php wp_css_dropdownmenu('<div class="menu"><ul>', '</ul></div>'); ?>`
-   Or you can have no wrapping whatsoever: `<?php wp_css_dropdownmenu('',''); ?>`
+1. Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
+2. Activate the plugin through the 'Plugins' menu in WordPress
+4. Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). Alternatively just manually reference the class as shown below:
 
-Just to be clear, <?php wp_css_dropdownmenu(); ?> will give you default wrapping which is what I gave in the first example. If you want a custom wrapping just use the first example I gave, but be sure to include the menu class.
+<?php  $myMenu = new CSSDropDownMenu(); /* Optionally place options here */ $myMenu->show(); ?>
+
+Note: The reason I recommend you add a sidebar to your header is simply because it's easier to edit than going in and editing the PHP every time you want to change something. Remember, a 'sidebar' is a misnomer, really it should just be called a 'widget area'.
+
+5. You may now begin modifying the CSS to suit, and editing your widget options to your taste. You can also activate the JS addon plugin to use Superfish. This is a different CSS file that you will be using. In future versions I'll make this process easier to use.
+
+Menu options (if manually coding):
+
+          $myMenu->before_menu - Defaults to <div class="menu"><ul>, can be anything you like, and you can add wrapping HTML for manually defined links here. The plugin will actually change the CSS classes in this variable only if it is in its default state so if you're wondering why the CSS isn't working check this.
+	  $myMenu->after_menu - Defaults to </ul></div>, can be anything you like, and you can add wrapping HTML for manually defined links here. 
+	  $myMenu->orientation - Values are 'top', 'right', 'left' - default is 'top'
+          $myMenu->home - Home page text, default is 'Home'
+          $myMenu->exclude_pid - Page IDs to exclude, comma seperated
+          $myMenu->exclude_purl - Page URLs removed by ID, comma seperated
+          $myMenu->show_pages - Show pages, default is '1', expected values 0,1
+          $myMenu->parent_urls - Remove all parent URLs, default is '0', expected values 0,1
+          $myMenu->subpages - Show subpages only (also shows parent page), default is '0', expected values 0,1
+          $myMenu->auth_id - Starting root ID of authenticated user, default is empty
+          $myMenu->non_auth_id - Starting root ID of non-authenticated user or just starting ID of menu, default is empty
+          $myMenu->exclude_lid - Remove link categories based on ID, comma seperated
+          $myMenu->show_links - Show links, default is '0', expected values 0,1
+          $myMenu->exclude_cid - Exclude post categories by ID, comma seperated
+          $myMenu->show_cats - Show post categories, default is '0', comma seperated
+          $myMenu->start_cid - Starting root ID of post categories, default is empty
 
 == Frequently Asked Questions ==
 
@@ -50,10 +71,21 @@ can do the same for you. Check out www.zackdesign.biz
 
 == Changelog ==
 
+3.0
+
+- Uses all the Wordpress heirarchical elements - links, post categories, pages
+- Attempts to make the installation process as simple as possible for non-savvy users (Auto CSS inclusion, allows user to define their own, user-friendly improvements)
+- Includes sub-plugin - the superfish menu dropdown script
+- Additional links in the plugin menu so that the user can quickly find the plugin setup area
+- Updated README file to reflect new changes and all links to Zack Design are now for this plugin category
+- Rewritten for PHP Classes
+- Widgetised!!!
+
 2.3.7
 
 - Authenticated menus
 - Ability to set further fine-grained controls from the code
+- Added some extra code to try and make IE6 dynamic widths work properly
 
 2.3.6
 
