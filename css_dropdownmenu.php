@@ -195,7 +195,7 @@ if (!class_exists("CSSDropDownMenu")) {
                                 $wpdb->posts.post_title,
                                 $wpdb->posts.post_parent,
                                 $wpdb->posts.post_type as type
-                                FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' $parent AND $wpdb->posts.post_type = 'page'  $remove";
+                                FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' $parent AND $wpdb->posts.post_type = 'page'  $remove ORDER BY $wpdb->posts.menu_order";
 
              //	Get the results
              return $wpdb->get_results($postSQL);
