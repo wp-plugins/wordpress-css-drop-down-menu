@@ -85,7 +85,7 @@ $myMenu->start_cid - Starting root ID of post categories, default is empty`
 
 * You can also activate the JS addon plugin to use Superfish javascript. This plugin uses its own Superfish CSS which you can find in the plugin js/superfish directory.
 
-* For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ PageMash).
+* For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ "PageMash").
 
 == Frequently Asked Questions ==
 
