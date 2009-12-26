@@ -56,20 +56,15 @@ PHP for your functions file:
 	) );
 }`
 
-Alternatively just manually reference the class as shown below:
-
-`$myMenu = new CSSDropDownMenu(); /* Optionally place options here */ $myMenu->show(); `
-
 Note: The reason I recommend you add a sidebar to your header is simply because it's easier to edit than going in and editing the PHP every time you want to change something. Remember, a 'sidebar' is a misnomer, really it should just be called a 'widget area'.
 
-* The plugin defines its own menu.css in your theme's header. If you have your own menu.css file in your theme folder the plugin will check for that and load that for you automatically. It may be easier to simply copy across menu.css from the plugin folder and use that as the basis for your own. Or, browse the internet for unordered CSS list menu styles. [Stu's site is a good start](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus").
+Alternatively just manually reference the class as shown below:
 
-* You can also activate the JS addon plugin to use Superfish javascript. This plugin uses its own Superfish CSS which you can find in the plugin js/superfish directory.
+`$myMenu = new CSSDropDownMenu(); /* Extra options here */ $myMenu->show(); `
 
-* These are the options you have when manually placing your menu code in the header:
+These are the options you have when manually placing your menu code in the header:
 
-`
-$myMenu->before_menu - Defaults to <div class="menu"><ul>, can be anything you like, and you can add wrapping HTML for manually defined links here. The plugin will actually change the CSS classes in this variable only if it is in its default state so if you're wondering why the CSS isn't working check this.
+`$myMenu->before_menu - Defaults to <div class="menu"><ul>, can be anything you like, and you can add wrapping HTML for manually defined links here. The plugin will actually change the CSS classes in this variable only if it is in its default state so if you're wondering why the CSS isn't working check this.
 $myMenu->after_menu - Defaults to </ul></div>, can be anything you like, and you can add wrapping HTML for manually defined links here. 
 $myMenu->orientation - Values are 'top', 'right', 'left' - default is 'top'
 $myMenu->home - Home page text, default is 'Home'
@@ -85,6 +80,10 @@ $myMenu->show_links - Show links, default is '0', expected values 0,1
 $myMenu->exclude_cid - Exclude post categories by ID, comma seperated
 $myMenu->show_cats - Show post categories, default is '0', comma seperated
 $myMenu->start_cid - Starting root ID of post categories, default is empty`
+
+* The plugin defines its own menu.css in your theme's header. If you have your own menu.css file in your theme folder the plugin will check for that and load that for you automatically. It may be easier to simply copy across menu.css from the plugin folder and use that as the basis for your own. Or, browse the internet for unordered CSS list menu styles. [Stu's site is a good start](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus").
+
+* You can also activate the JS addon plugin to use Superfish javascript. This plugin uses its own Superfish CSS which you can find in the plugin js/superfish directory.
 
 * For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ PageMash).
 
