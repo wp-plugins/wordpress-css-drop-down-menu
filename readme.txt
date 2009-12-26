@@ -25,7 +25,7 @@ If you want me to modify the CSS for you simply [contact me](http://www.zackdesi
 
 It uses [Stu Nicholl's final drop-down code](http://www.cssplay.co.uk/menus/final_drop.html "Stu Nicholl") which is a complete CSS solution - no Javascript required!!
 
-You can look on [Stu's site for other drop-down code](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus") as I got the flyout left and right code from there.
+You can look on [Stu's site for other drop-down code](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus") as I got the flyout left and right code from there. Don't forget to donate if you're using his styles.
 
 Most of his CSS should work just fine with the menu. I've made it so that the plugin automatically finds menu.css in the plugin's folder and loads it in your Wordpress site so you can instantly see how it will look. If you want to create your own CSS simply create menu.css in your theme's root directory and the plugin will load that automatically for you.
 
@@ -33,18 +33,18 @@ Please note that if you're upgrading you will need to change your theme files to
 
 == Installation ==
 
-1. Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). 
+* Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
+* Activate the plugin through the 'Plugins' menu in WordPress
+* Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). 
 
 PHP for your header.php:  
 
-if ( function_exists ( dynamic_sidebar('menu') ) ) : dynamic_sidebar ('menu'); endif; 
+`if ( function_exists ( dynamic_sidebar('menu') ) ) : dynamic_sidebar ('menu'); endif; `
 
 
 PHP for your functions file: 
 
-if ( function_exists ('register_sidebar')) { 
+`if ( function_exists ('register_sidebar')) { 
     register_sidebar( array(
 		'name' => __('Menu', 'menu'),
 		'id' => 'menu',
@@ -54,36 +54,39 @@ if ( function_exists ('register_sidebar')) {
 		'before_title' => '',
 		'after_title' => ''
 	) );
-}
+}`
 
 Alternatively just manually reference the class as shown below:
 
-  $myMenu = new CSSDropDownMenu(); /* Optionally place options here */ $myMenu->show(); 
+`$myMenu = new CSSDropDownMenu(); /* Optionally place options here */ $myMenu->show(); `
 
 Note: The reason I recommend you add a sidebar to your header is simply because it's easier to edit than going in and editing the PHP every time you want to change something. Remember, a 'sidebar' is a misnomer, really it should just be called a 'widget area'.
 
-4. You may now begin modifying the CSS to suit (menu.css in the wordpress plugin editor, or create your own in your theme directory), and editing your widget options to your taste. You can also activate the JS addon plugin to use Superfish. This is a different CSS file that you will be using. In future versions I'll make this process easier to use.
+* The plugin defines its own menu.css in your theme's header. If you have your own menu.css file in your theme folder the plugin will check for that and load that for you automatically. It may be easier to simply copy across menu.css from the plugin folder and use that as the basis for your own. Or, browse the internet for unordered CSS list menu styles. [Stu's site is a good start](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus").
 
-Menu options (if manually coding):
+* You can also activate the JS addon plugin to use Superfish javascript. This plugin uses its own Superfish CSS which you can find in the plugin js/superfish directory.
 
-          $myMenu->before_menu - Defaults to <div class="menu"><ul>, can be anything you like, and you can add wrapping HTML for manually defined links here. The plugin will actually change the CSS classes in this variable only if it is in its default state so if you're wondering why the CSS isn't working check this.
-	  $myMenu->after_menu - Defaults to </ul></div>, can be anything you like, and you can add wrapping HTML for manually defined links here. 
-	  $myMenu->orientation - Values are 'top', 'right', 'left' - default is 'top'
-          $myMenu->home - Home page text, default is 'Home'
-          $myMenu->exclude_pid - Page IDs to exclude, comma seperated
-          $myMenu->exclude_purl - Page URLs removed by ID, comma seperated
-          $myMenu->show_pages - Show pages, default is '1', expected values 0,1
-          $myMenu->parent_urls - Remove all parent URLs, default is '0', expected values 0,1
-          $myMenu->subpages - Show subpages only (also shows parent page), default is '0', expected values 0,1
-          $myMenu->auth_id - Starting root ID of authenticated user, default is empty
-          $myMenu->non_auth_id - Starting root ID of non-authenticated user or just starting ID of menu, default is empty
-          $myMenu->exclude_lid - Remove link categories based on ID, comma seperated
-          $myMenu->show_links - Show links, default is '0', expected values 0,1
-          $myMenu->exclude_cid - Exclude post categories by ID, comma seperated
-          $myMenu->show_cats - Show post categories, default is '0', comma seperated
-          $myMenu->start_cid - Starting root ID of post categories, default is empty
+* These are the options you have when manually placing your menu code in the header:
 
-5. For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ PageMash).
+`
+$myMenu->before_menu - Defaults to <div class="menu"><ul>, can be anything you like, and you can add wrapping HTML for manually defined links here. The plugin will actually change the CSS classes in this variable only if it is in its default state so if you're wondering why the CSS isn't working check this.
+$myMenu->after_menu - Defaults to </ul></div>, can be anything you like, and you can add wrapping HTML for manually defined links here. 
+$myMenu->orientation - Values are 'top', 'right', 'left' - default is 'top'
+$myMenu->home - Home page text, default is 'Home'
+$myMenu->exclude_pid - Page IDs to exclude, comma seperated
+$myMenu->exclude_purl - Page URLs removed by ID, comma seperated
+$myMenu->show_pages - Show pages, default is '1', expected values 0,1
+$myMenu->parent_urls - Remove all parent URLs, default is '0', expected values 0,1
+$myMenu->subpages - Show subpages only (also shows parent page), default is '0', expected values 0,1
+$myMenu->auth_id - Starting root ID of authenticated user, default is empty
+$myMenu->non_auth_id - Starting root ID of non-authenticated user or just starting ID of menu, default is empty
+$myMenu->exclude_lid - Remove link categories based on ID, comma seperated
+$myMenu->show_links - Show links, default is '0', expected values 0,1
+$myMenu->exclude_cid - Exclude post categories by ID, comma seperated
+$myMenu->show_cats - Show post categories, default is '0', comma seperated
+$myMenu->start_cid - Starting root ID of post categories, default is empty`
+
+* For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ PageMash).
 
 == Frequently Asked Questions ==
 
