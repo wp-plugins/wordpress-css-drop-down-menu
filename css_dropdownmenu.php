@@ -150,7 +150,7 @@ if (!class_exists("CSSDropDownMenu")) {
                         $aclass="class='menu_item_link menu_item_link_$page->ID $parent'";
                     }
             
-                    $title = apply_filters( 'the_title', htmlspecialchars($listTitle) );
+                    $title = apply_filters( 'the_title', $listTitle);
             
                     if (!$url)
                         $result .= '
