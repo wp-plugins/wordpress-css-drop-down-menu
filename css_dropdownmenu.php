@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
    Description: The ultimate wordpress dropdown menu builder. <a href="http://www.zackdesign.biz">Donate</a> | <a href="http://www.cssplay.co.uk/menus/">Other Menu Styles</a>
-   Version: 3.0
+   Version: 3.0.1
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -85,6 +85,21 @@ if (!class_exists("CSSDropDownMenu")) {
             else if ($this->before_menu == '<div class="menu"><ul>')
                 $this->before_menu = '<div class="menu '.get_option('wp_css_menu_class').'"><ul class="'.get_option('wp_css_menu_jclass').'">';
             echo $this->before_menu.$result.$this->after_menu;
+	    
+	    if (($this->orientation == 'top') && (get_option('wp_css_menu_dynamic')))
+	    {
+	        $number = 0;
+		if ($this->show_pages)
+		    $number = sizeof($this->return_parent_pages());
+		    
+		if ($this->show_links)
+		    $number += sizeof($this->return_links());
+		    
+		if ($this->show_cats)
+		    $number += sizeof($this->return_cats());
+		   
+		update_option('wp_css_menu_page_num', $number);
+	    }
         }
         
         function build($pages, $cur_level = 0, $result = '', $one_level = false)
@@ -267,6 +282,36 @@ if (!class_exists("CSSDropDownMenu")) {
             else
                 return 0;
         }
+	
+	function return_parent_pages()
+	{
+            global $wpdb; // Global wordpress variables
+
+            if (is_user_logged_in())
+                $parent = " AND $wpdb->posts.post_parent = '$this->auth_id'";
+            else
+                $parent = " AND $wpdb->posts.post_parent = '$this->non_auth_id'";
+            
+             $pages = $this->exclude_pid;
+
+             $remove = '';
+             if ($pages)
+             {
+                 $pages = explode(',',$pages);
+                 foreach ($pages as $page)
+                     $remove .= ' AND ID != ' . $page;
+             }
+     
+              $postSQL =  "SELECT 
+                                $wpdb->posts.ID, 
+                                $wpdb->posts.post_title,
+                                $wpdb->posts.post_parent,
+                                $wpdb->posts.post_type as type
+                                FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' $parent AND $wpdb->posts.post_type = 'page'  $remove ";
+
+             //	Get the results
+             return $wpdb->get_results($postSQL);
+	}
    
     }
 
@@ -396,7 +441,7 @@ function css_dropdownmenu_css() {
         
     if ($dynamic)
     {
-        $pages = sizeof(get_pages_from_DB($start_parent)) + $extra_pages;
+        $pages = get_option('wp_css_menu_page_num') + $extra_pages;
         $width = get_option('wp_css_menu_width');
         $class = get_option('wp_css_menu_class');
         if (!$class || ($class == ''))
@@ -553,7 +598,7 @@ function CSSDropDownMenu_options () {
 
 
 
-        add_action('wp_head', 'css_dropdownmenu_css', 1);
+        add_action('wp_head', 'css_dropdownmenu_css');
 
         add_action('admin_menu', 'setupCSSDropDownMenuAdminPanel');
         
