@@ -60,7 +60,10 @@ Note: The reason I recommend you add a sidebar to your header is simply because 
 
 Alternatively just manually reference the class as shown below:
 
-`$myMenu = new CSSDropDownMenu(); /* Extra options here */ $myMenu->show(); `
+`if (class_exists('CSSDropDownMenu'))
+ {
+     $myMenu = new CSSDropDownMenu(); /* Extra options here */ $myMenu->show(); 
+ }`
 
 These are the options you have when manually placing your menu code in the header:
 
