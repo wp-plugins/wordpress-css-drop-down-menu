@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
    Description: The ultimate wordpress dropdown menu builder. <a href="http://www.zackdesign.biz">Donate</a> | <a href="http://www.cssplay.co.uk/menus/">Other Menu Styles</a>
-   Version: 3.0.1
+   Version: 3.0.2
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -30,6 +30,7 @@ if (!class_exists("CSSDropDownMenu")) {
         var $show_cats = 0;
         var $exclude_cid;
         var $start_cid;
+        var $selective_pages = 0;
         
         function CSSDropDownMenu() { //constructor
             
@@ -190,6 +191,27 @@ if (!class_exists("CSSDropDownMenu")) {
             global $wpdb; // Global wordpress variables
             
             global $post;
+            
+            // Selective menu opening 
+            if ($this->selective_pages)
+            {
+                $parent = ' AND (';
+                $count = 1;
+                foreach ($post->ancestors as $a)
+                {
+                    if ($count == 1)
+                        $parent .= " $wpdb->posts.post_parent = ". $post->ancestors[sizeof($post->ancestors) - $count];
+                    else
+                        $parent .= " OR $wpdb->posts.post_parent = ". $post->ancestors[sizeof($post->ancestors) - $count];
+                    $count++;
+                }
+                if ($parent != ' AND (')
+                    $parent .= " OR $wpdb->posts.post_parent = $post->ID OR $wpdb->posts.post_parent = 0)";
+                else
+                    $parent .= " $wpdb->posts.post_parent = $post->ID OR $wpdb->posts.post_parent = 0)";
+            }
+                      
+            // Subpages loading
             if ($this->subpages && ($post->post_type == 'page'))
                 $parent = " AND $wpdb->posts.post_parent = '$post->ID' OR $wpdb->posts.ID = '$post->ID' OR $wpdb->posts.ID = '$post->post_parent'";
             else if ($this->subpages)
@@ -211,7 +233,7 @@ if (!class_exists("CSSDropDownMenu")) {
                                 $wpdb->posts.post_parent,
                                 $wpdb->posts.post_type as type
                                 FROM $wpdb->posts WHERE $wpdb->posts.post_status = 'publish' $parent AND $wpdb->posts.post_type = 'page'  $remove ORDER BY $wpdb->posts.menu_order";
-
+             //echo $postSQL;
              //	Get the results
              return $wpdb->get_results($postSQL);
         }
@@ -338,6 +360,7 @@ class CSS_DDMenu extends WP_Widget
           $cssMenu->exclude_purl = esc_attr($instance['exclude_purl']);
           $cssMenu->show_pages = esc_attr($instance['show_pages']);
           $cssMenu->parent_urls = esc_attr($instance['parent_urls']);
+          $cssMenu->selective_pages = esc_attr($instance['selective_pages']);
           $cssMenu->subpages = esc_attr($instance['subpages']);
           $cssMenu->auth_id = esc_attr($instance['auth_id']);
           $cssMenu->non_auth_id = esc_attr($instance['non_auth_id']);
@@ -379,6 +402,8 @@ class CSS_DDMenu extends WP_Widget
             if ($show_pages): $show_pages = 'checked="checked"'; endif;
         $parent_urls = esc_attr($instance['parent_urls']);
             if ($parent_urls): $parent_urls = 'checked="checked"'; endif;
+        $selective_pages = esc_attr($instance['selective_pages']);
+            if ($selective_pages): $selective_pages = 'checked="checked"'; endif;
         $subpages = esc_attr($instance['subpages']);
             if ($subpages): $subpages = 'checked="checked"'; endif;
         $auth_id = esc_attr($instance['auth_id']);
@@ -403,6 +428,8 @@ class CSS_DDMenu extends WP_Widget
             <p><label for="<?php echo $this->get_field_id('exclude_purl'); ?>"> <?php _e('Exclude page URLs by ID (comma seperated):'); ?> <input type="text" class="widefat" id="<?php echo $this->get_field_id('exclude_purl'); ?>" name="<?php echo $this->get_field_name('exclude_purl'); ?>" value="<?php echo $purls ?>" /></label></p>
             
             <p><label for="<?php echo $this->get_field_id('parent_urls'); ?>"> <?php _e('Remove all parent URLs:'); ?> <input id="<?php echo $this->get_field_id('parent_urls'); ?>" name="<?php echo $this->get_field_name('parent_urls'); ?>" <?php echo $parent_urls ?> type="checkbox" /></label></p>
+    
+            <p><label for="<?php echo $this->get_field_id('selective_pages'); ?>"> <?php _e('Menu drilldown style, only shows children for selected item (most useful for non-flyout static left/right menus):'); ?> <input id="<?php echo $this->get_field_id('selective_pages'); ?>" name="<?php echo $this->get_field_name('selective_pages'); ?>" <?php echo $selective_pages ?> type="checkbox" /></label></p>
     
             <p><label for="<?php echo $this->get_field_id('subpages'); ?>"> <?php _e('Show only subpages of the currently viewed page:'); ?> <input id="<?php echo $this->get_field_id('subpages'); ?>" name="<?php echo $this->get_field_name('subpages'); ?>" <?php echo $subpages ?> type="checkbox" /></label></p>
             

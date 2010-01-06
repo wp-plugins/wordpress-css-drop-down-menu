@@ -4,7 +4,7 @@ http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
 Requires at least: 2.8
 Tested up to: 2.9
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 
 Creates a dynamic multi-level navigation menu of pages, links, and post categories. Includes cross-browser-friendly CSS and an add-on Superfish plugin for Javascript (optional).
 
@@ -82,7 +82,8 @@ $myMenu->exclude_lid - Remove link categories based on ID, comma seperated
 $myMenu->show_links - Show links, default is '0', expected values 0,1
 $myMenu->exclude_cid - Exclude post categories by ID, comma seperated
 $myMenu->show_cats - Show post categories, default is '0', comma seperated
-$myMenu->start_cid - Starting root ID of post categories, default is empty`
+$myMenu->start_cid - Starting root ID of post categories, default is empty
+$myMenu->selective_pages - Shows only children of currently selected menu item, default is '0', expected values 0,1`
 
 * The plugin defines its own menu.css in your theme's header. If you have your own menu.css file in your theme folder the plugin will check for that and load that for you automatically. It may be easier to simply copy across menu.css from the plugin folder and use that as the basis for your own. Or, browse the internet for unordered CSS list menu styles. [Stu's site is a good start](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus").
 
@@ -98,6 +99,10 @@ That's what I'm here for. I do Wordpress sites for many people in a professional
 can do the same for you. Check out www.zackdesign.biz
 
 == Changelog ==
+
+3.0.2
+
+- Allows users to create static non-flyout left/right menus with drilldown functionality (only shows children of currently selected menu item)
 
 3.0.1
 
