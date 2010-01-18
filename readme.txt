@@ -39,12 +39,13 @@ Please note that if you're upgrading you will need to change your theme files to
 
 PHP for your header.php:  
 
-`if ( function_exists ( dynamic_sidebar('menu') ) ) : dynamic_sidebar ('menu'); endif; `
+`<?php if ( function_exists ( dynamic_sidebar('menu') ) ) : dynamic_sidebar ('menu'); endif; ?>`
 
 
 PHP for your functions file: 
 
-`if ( function_exists ('register_sidebar')) { 
+`<?php
+if ( function_exists ('register_sidebar')) { 
     register_sidebar( array(
 		'name' => __('Menu', 'menu'),
 		'id' => 'menu',
@@ -54,16 +55,19 @@ PHP for your functions file:
 		'before_title' => '',
 		'after_title' => ''
 	) );
-}`
+}
+?>`
 
 Note: The reason I recommend you add a sidebar to your header is simply because it's easier to edit than going in and editing the PHP every time you want to change something. Remember, a 'sidebar' is a misnomer, really it should just be called a 'widget area'.
 
 Alternatively just manually reference the class as shown below:
 
-`if (class_exists('CSSDropDownMenu'))
+`<?php
+if (class_exists('CSSDropDownMenu'))
  {
      $myMenu = new CSSDropDownMenu(); /* Extra options here */ $myMenu->show(); 
- }`
+ }
+ ?>`
 
 These are the options you have when manually placing your menu code in the header:
 
