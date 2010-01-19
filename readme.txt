@@ -4,7 +4,7 @@ http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
 Requires at least: 2.8
 Tested up to: 2.9
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 
 Creates a dynamic multi-level navigation menu of pages, links, and post categories. Includes cross-browser-friendly CSS and an add-on Superfish plugin for Javascript (optional).
 
@@ -95,6 +95,8 @@ $myMenu->selective_pages - Shows only children of currently selected menu item, 
 
 * For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ "PageMash").
 
+* If you get 'broken image links' in IE it's because the background dropdown images in your menu.css file are set to Stu's original ones. You will need to change these.
+
 == Frequently Asked Questions ==
 
 = I Need HELP!!! =
@@ -103,6 +105,11 @@ That's what I'm here for. I do Wordpress sites for many people in a professional
 can do the same for you. Check out www.zackdesign.biz
 
 == Changelog ==
+
+3.0.4
+
+- Added widget title
+- Also created ability to do a menu drilldown style in the sidebar, visible here: http://www.brakes.no/v2/produkter/
 
 3.0.3
 

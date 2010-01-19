@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
    Description: The ultimate wordpress dropdown menu builder. <a href="http://www.zackdesign.biz">Donate</a> | <a href="http://www.cssplay.co.uk/menus/">Other Menu Styles</a>
-   Version: 3.0.3
+   Version: 3.0.4
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -197,14 +197,18 @@ if (!class_exists("CSSDropDownMenu")) {
             {
                 $parent = ' AND (';
                 $count = 1;
-                foreach ($post->ancestors as $a)
+                if (is_array($post->ancestors))
                 {
-                    if ($count == 1)
-                        $parent .= " $wpdb->posts.post_parent = ". $post->ancestors[sizeof($post->ancestors) - $count];
-                    else
-                        $parent .= " OR $wpdb->posts.post_parent = ". $post->ancestors[sizeof($post->ancestors) - $count];
-                    $count++;
+                    foreach ($post->ancestors as $a)
+                    {
+                        if ($count == 1)
+                            $parent .= " $wpdb->posts.post_parent = ". $post->ancestors[sizeof($post->ancestors) - $count];
+                        else
+                            $parent .= " OR $wpdb->posts.post_parent = ". $post->ancestors[sizeof($post->ancestors) - $count];
+                        $count++;
+                    }
                 }
+                
                 if ($parent != ' AND (')
                     $parent .= " OR $wpdb->posts.post_parent = $post->ID OR $wpdb->posts.post_parent = 0)";
                 else
@@ -351,6 +355,11 @@ class CSS_DDMenu extends WP_Widget
        extract($args);
        
        echo $before_widget;
+       
+       $title = apply_filters('widget_title', $instance['title']);
+       
+       if ( $title )
+           echo $before_title . $title . $after_title; 
       
       if (class_exists("CSSDropDownMenu")) {
           $cssMenu = new CSSDropDownMenu();
@@ -382,6 +391,7 @@ class CSS_DDMenu extends WP_Widget
     
     function form($instance)
     {
+        $title = esc_attr($instance['title']);        
         $orientation = esc_attr($instance['orientation']);
         
         $right = '';
@@ -417,6 +427,8 @@ class CSS_DDMenu extends WP_Widget
         $start_cid = esc_attr($instance['start_cid']);
         
         ?>
+            <p><label for="<?php echo $this->get_field_id('title'); ?>"> <?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $title ?>" /></label></p>
+            
             <p><label for="<?php echo $this->get_field_id('orientation'); ?>"> <?php _e('Orientation:'); ?> <select class="widefat" id="<?php echo $this->get_field_id('orientation'); ?>" name="<?php echo $this->get_field_name('orientation'); ?>"><option <?php echo $right; ?>>Right</option><option  <?php echo $left; ?>>Left</option><option  <?php echo $top; ?>>Top</option></select></label></p>
             
             <p><label for="<?php echo $this->get_field_id('home_button'); ?>"> <?php _e('Home Button (no text no button):'); ?> <input class="widefat" id="<?php echo $this->get_field_id('home_button'); ?>" name="<?php echo $this->get_field_name('home_button'); ?>" value="<?php echo $home ?>" /></label></p>
