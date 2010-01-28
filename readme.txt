@@ -97,6 +97,10 @@ $myMenu->selective_pages - Shows only children of currently selected menu item, 
 
 * If you get 'broken image links' in IE it's because the background dropdown images in your menu.css file are set to Stu's original ones. You will need to change these.
 
+== Screenshots ==
+
+[Zack Design Plugin Showcase](http://wordpress.zackdesign.biz "Plugin Showcase")
+
 == Frequently Asked Questions ==
 
 = I Need HELP!!! =
