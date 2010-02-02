@@ -4,7 +4,7 @@ http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
 Requires at least: 2.8
 Tested up to: 2.9
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 
 Creates a dynamic multi-level navigation menu of pages, links, and post categories. Includes cross-browser-friendly CSS and an add-on Superfish plugin for Javascript (optional).
 
@@ -109,6 +109,10 @@ That's what I'm here for. I do Wordpress sites for many people in a professional
 can do the same for you. Check out www.zackdesign.biz
 
 == Changelog ==
+
+3.0.5
+
+- Found that IE6 didn't play nice when excluding parent URLs, added href="#" parent A tags to fix issue
 
 3.0.4
 

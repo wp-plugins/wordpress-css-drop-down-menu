@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu JS add-on
    Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
    Description: A complementary javascript plugin to the CSS dropdown menu. This uses a different stylesheet found in <plugin folder>/js/superfish/css/superfish.css
-   Version: 3.0.4
+   Version: 3.0.5
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
