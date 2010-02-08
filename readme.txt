@@ -9,6 +9,7 @@ Stable tag: 3.0.5
 Creates a dynamic multi-level navigation menu of pages, links, and post categories. Includes cross-browser-friendly CSS and an add-on Superfish plugin for Javascript (optional).
 
 == Description ==
+Note: This plugin requires PHP 5
 
 Features at a glance:
 
