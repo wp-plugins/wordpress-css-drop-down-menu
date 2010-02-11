@@ -2,25 +2,31 @@
 Contributors: zackdesign
 http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
+Donate link: http://zackdesign.biz
 Requires at least: 2.8
 Tested up to: 2.9
 Stable tag: 3.0.5
 
-Creates a dynamic multi-level navigation menu of pages, links, and post categories. Includes cross-browser-friendly CSS and an add-on Superfish plugin for Javascript (optional).
+Turn your WP pages, links, and post categories into a menu system; includes some starting CSS and JS
 
 == Description ==
-Note: This plugin requires PHP 5
+
+_Note_: This plugin requires PHP 5
 
 Features at a glance:
 
-* Multi-level dropdown
-* Multi-level left/right flyouts
-* Support for Superfish Javascript
 * Submenu support (shows the parent page, and the current page when viewing that current page)
 * Now widgetised to make it really easy to add multiple dropdowns anywhere on the page you have sidebars
 * Ability to create the menu wherever you want with PHP Classes
 * Pages, post categories, and links are all selectable and highly configurable to display however you want on whatever widget or manually-set sidebar you wish
 * Leverages the new Wordpress 2.8 widget settings to allow quick and easy multiple widget instances
+
+Theming options:
+
+* Multi-level dropdown (CSS included)
+* Multi-level left/right flyouts (CSS included)
+* Support for Superfish Javascript (CSS included)
+* Works with other CSS (within reason)
 
 If you want me to modify the CSS for you simply [contact me](http://www.zackdesign.biz "Zack Design") and I will do it easily and quickly for you for a moderate sum.
 
@@ -66,7 +72,9 @@ Alternatively just manually reference the class as shown below:
 `<?php
 if (class_exists('CSSDropDownMenu'))
  {
-     $myMenu = new CSSDropDownMenu(); /* Extra options here */ $myMenu->show(); 
+     $myMenu = new CSSDropDownMenu(); 
+     /* Extra options here, like so: $myMenu->exclude_purl="1"; */ 
+     $myMenu->show(); 
  }
  ?>`
 
@@ -97,6 +105,19 @@ $myMenu->selective_pages - Shows only children of currently selected menu item, 
 * For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ "PageMash").
 
 * If you get 'broken image links' in IE it's because the background dropdown images in your menu.css file are set to Stu's original ones. You will need to change these.
+
+== Upgrade Notice ==
+
+Please make sure to update your theme's header.php file if coming from versions older than 3.x, removing `wp_css_dropdownmenu()` and replacing it with:
+
+`
+if (class_exists('CSSDropDownMenu'))
+ {
+     $myMenu = new CSSDropDownMenu(); 
+     /* Extra options here, like so: $myMenu->exclude_purl="1"; */ 
+     $myMenu->show(); 
+ }
+ `
 
 == Screenshots ==
 
