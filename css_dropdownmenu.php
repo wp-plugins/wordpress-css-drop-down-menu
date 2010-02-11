@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
    Description: The ultimate wordpress dropdown menu builder. <a href="http://www.zackdesign.biz">Donate</a> | <a href="http://www.cssplay.co.uk/menus/">Other Menu Styles</a>
-   Version: 3.0.5
+   Version: 3.0.6
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -87,20 +87,20 @@ if (!class_exists("CSSDropDownMenu")) {
                 $this->before_menu = '<div class="menu '.get_option('wp_css_menu_class').'"><ul class="'.get_option('wp_css_menu_jclass').'">';
             echo $this->before_menu.$result.$this->after_menu;
 	    
-	    if (($this->orientation == 'top') && (get_option('wp_css_menu_dynamic')))
-	    {
-	        $number = 0;
-		if ($this->show_pages)
-		    $number = sizeof($this->return_parent_pages());
+		  if (!strcasecmp($this->orientation, 'top') && (get_option('wp_css_menu_dynamic')))
+	          {
+	              $number = 0;
+		            if ($this->show_pages)
+		                $number = sizeof($this->return_parent_pages());
 		    
-		if ($this->show_links)
-		    $number += sizeof($this->return_links());
+		            if ($this->show_links)
+		                $number += sizeof($this->return_links());
 		    
-		if ($this->show_cats)
-		    $number += sizeof($this->return_cats());
+		            if ($this->show_cats)
+		                $number += sizeof($this->return_cats());
 		   
-		update_option('wp_css_menu_page_num', $number);
-	    }
+		            update_option('wp_css_menu_page_num', $number);
+	          }
         }
         
         function build($pages, $cur_level = 0, $result = '', $one_level = false)
@@ -155,7 +155,7 @@ if (!class_exists("CSSDropDownMenu")) {
             
                     // Need to find the current page the user is visiting and add the class accordingly
                     global $post;
-                    if ($post->ID == $page->ID)
+                    if (($post->ID == $page->ID) || (is_home()&&($page->ID==get_option('page_for_posts'))))
                     {
                         $class="class='menu_item menu_item_$page->ID current_page $parent'";
                         $aclass="class='menu_item_link menu_item_link_$page->ID current_page_link $parent'";
@@ -483,11 +483,14 @@ function css_dropdownmenu_css() {
         $pages = get_option('wp_css_menu_page_num') + $extra_pages;
         $width = get_option('wp_css_menu_width');
         $class = get_option('wp_css_menu_class');
-        if (!$class || ($class == ''))
+        if (!$class || ($class == ''))                         
             $class = 'menu';
         
         // Li is the full width divided by the number of pages - the a width is li less a seemingly arbitrary number??
-        $li = ($width - 1) / $pages ;
+        if ($pages < 1)
+            $li = 1; 
+        else
+            $li = ($width - 1) / $pages ;
         $a  = $li - 10;
         
         $lili = 128;
