@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
    Description: The ultimate wordpress dropdown menu builder. <a href="http://www.zackdesign.biz">Donate</a> | <a href="http://www.cssplay.co.uk/menus/">Other Menu Styles</a>
-   Version: 3.0.6
+   Version: 3.0.7
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -125,9 +125,14 @@ if (!class_exists("CSSDropDownMenu")) {
                             $url = post_permalink($page->ID);
                        
                     }
-            
+                    
+		    $target = '';
+		    
                     if ($page->type == 'link')
+		    {
                         $url = $page->url;
+			$target = ' target="'.$page->link_target.'" ';
+		    }
                     else if (($page->type == 'category') && (get_option('permalink') != ''))
                         $url = get_bloginfo('url').'/'.$page->slug;
                     else if ($page->type == 'category') 
@@ -146,16 +151,17 @@ if (!class_exists("CSSDropDownMenu")) {
             
                     global $post;
             
-                    if ($post->post_parent == $page->ID)
+                    if (($post->post_parent == $page->ID) && ($page->type != 'link'))
                       $parent = 'current_parent';
-                   else if (!empty($children))
-                      $parent = 'parent';
+                   else if (!empty($children) && ($page->type != 'link_category'))
+                      $parent = 'parent drop';
                    else
                         $parent = '';
             
                     // Need to find the current page the user is visiting and add the class accordingly
                     global $post;
-                    if (($post->ID == $page->ID) || (is_home()&&($page->ID==get_option('page_for_posts'))))
+		    $page->ID = str_replace(' ','_', $page->ID);
+                    if ( ( ($post->ID == $page->ID) || (is_home() && ($page->ID==get_option('page_for_posts') ) ) || (is_category($page->ID)) ) && ($page->type != 'link_category' ))
                     {
                         $class="class='menu_item menu_item_$page->ID current_page $parent'";
                         $aclass="class='menu_item_link menu_item_link_$page->ID current_page_link $parent'";
@@ -173,7 +179,7 @@ if (!class_exists("CSSDropDownMenu")) {
                         <li '.$class.'><a '.$aclass.' rel="anchor" href="#" title="' . $title . '">' . $title;
                     else
                         $result .= '
-                        <li '.$class.'><a href="' . $url . '" '.$aclass.' rel="bookmark" title="' . $title . '">' . $title;
+                        <li '.$class.'><a href="' . $url . '" '.$aclass.$target.' rel="bookmark" title="' . $title . '">' . $title;
             
                     if (!empty($children))
                         $result .= '<!--[if IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->
@@ -266,7 +272,7 @@ if (!class_exists("CSSDropDownMenu")) {
            $links = array();
             foreach ($cats as $c)
             {
-                $sql = "SELECT $wpdb->links.link_name as ID, $wpdb->links.link_name as post_title, $wpdb->links.link_url as url, '$c->ID' as post_parent, 'link' as type
+                $sql = "SELECT $wpdb->links.link_name as ID, $wpdb->links.link_name as post_title, $wpdb->links.link_url as url, $wpdb->links.link_target as link_target, '$c->ID' as post_parent, 'link' as type
                           FROM $wpdb->links, $wpdb->term_relationships
                           WHERE $wpdb->term_relationships.term_taxonomy_id = $c->ID AND $wpdb->term_relationships.object_id = $wpdb->links.link_id";
                   
