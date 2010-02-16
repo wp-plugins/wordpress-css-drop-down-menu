@@ -5,7 +5,7 @@ Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendl
 Donate link: http://zackdesign.biz
 Requires at least: 2.8
 Tested up to: 2.9
-Stable tag: 3.0.7
+Stable tag: 3.0.7.1
 
 Turn your WP pages, links, and post categories into a menu system; includes some starting CSS and JS
 
@@ -131,6 +131,11 @@ That's what I'm here for. I do Wordpress sites for many people in a professional
 can do the same for you. Check out www.zackdesign.biz
 
 == Changelog ==
+
+3.07.1
+
+- Minor fix - valid XHTML 1.0 Transitional (target="" removed)
+- Changed CSS slightly (current_page_item > current_page and deleted drop.gif)
 
 3.0.7
 

@@ -75,29 +75,29 @@ way to fit your requirements.
 =================================================================== */
 
 
-.menu ul ul .current_page_item a {
+.menu ul ul .current_page a {
   color: red;
   background: white;
   border-left: 1px solid black;
 }
 
-.menu .current_page_item a {
+.menu .current_page a {
   color: red;
   font-weight: bold;
   background: white;
 }
 
-.menu ul .current_page_item ul a {
+.menu ul .current_page ul a {
   color: white;
   font-weight: normal;
   background: black;
 }
 
-.menu ul .current_page_item ul a:hover {
+.menu ul .current_page ul a:hover {
   background: gray;
 }
 
-.menu .current_page_item a:hover {
+.menu .current_page a:hover {
   background: white;
 }
 
