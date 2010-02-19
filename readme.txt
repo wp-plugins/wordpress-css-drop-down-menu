@@ -4,14 +4,23 @@ http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
 Donate link: http://zackdesign.biz
 Requires at least: 2.8
-Tested up to: 2.9
-Stable tag: 3.0.7.1
+Tested up to: 2.9.2
+Stable tag: 3.0.8
 
 Turn your WP pages, links, and post categories into a menu system; includes some starting CSS and JS
 
 == Description ==
 
 _Note_: This plugin requires PHP 5
+
+_Fatal Error_?
+
+This is due to pre version 3.x code in your theme. You needed to update it to continue using version 3.x of this plugin. Your options:
+
+* Click on Installation in the menu above to make your theme compatible
+* Downgrade to a version that works: [2.3.7](http://downloads.wordpress.org/plugin/wordpress-css-drop-down-menu.2.3.7.zip "Version 2.3.7")
+* Contact [Zack Design](http://zackdesign.biz "Zack Design) for help
+
 
 Features at a glance:
 
@@ -130,7 +139,15 @@ if (class_exists('CSSDropDownMenu'))
 That's what I'm here for. I do Wordpress sites for many people in a professional capacity and
 can do the same for you. Check out www.zackdesign.biz
 
+= I'm getting strange class errors =
+
+You need PHP 5 to run this
+
 == Changelog ==
+
+3.0.8
+
+- Reintroduction of deprecated function in an attempt to get people back on track.
 
 3.07.1
 

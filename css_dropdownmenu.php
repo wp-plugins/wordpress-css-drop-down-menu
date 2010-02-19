@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
    Description: The ultimate wordpress dropdown menu builder. <a href="http://www.zackdesign.biz">Donate</a> | <a href="http://www.cssplay.co.uk/menus/">Other Menu Styles</a>
-   Version: 3.0.7.1
+   Version: 3.0.8
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -629,7 +629,6 @@ function CSSDropDownMenu_options () {
 
 
         function setupCSSDropDownMenuAdminPanel()
-
         {
 
             add_options_page('CSS Drop-down Menu', 'CSS Drop-down Menu', 9, basename(__FILE__), 'CSSDropDownMenu_options');
@@ -653,5 +652,11 @@ function CSSDropDownMenu_options () {
         
         add_action('init', 'include_CSSMenu_file');
 
+// Deprecated function, reintroduced as people seem to be breaking their sites left right and centre.
+function wp_css_dropdownmenu()
+{
+    echo 'Please visit <a href="http://wordpress.org/extend/plugins/wordpress-css-drop-down-menu/installation/">the Installation guide</a> to set up your menu properly as it has been changed (remember you can easily edit header.php).
+    If you can\'t do it yourself visit <a href="http://zackdesign.biz">Zack Design</a> and contact us for help. Or, <a href="http://downloads.wordpress.org/plugin/wordpress-css-drop-down-menu.2.3.7.zip">reinstall version 2.3.7</a>';
+}
 
 ?>
