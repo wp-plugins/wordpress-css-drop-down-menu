@@ -19,7 +19,7 @@ This is due to pre version 3.x code in your theme. You needed to update it to co
 
 * Click on Installation in the menu above to make your theme compatible
 * Downgrade to a version that works: [2.3.7](http://downloads.wordpress.org/plugin/wordpress-css-drop-down-menu.2.3.7.zip "Version 2.3.7")
-* Contact [Zack Design](http://zackdesign.biz "Zack Design) for help
+* Contact [Zack Design](http://zackdesign.biz "Zack Design") for help
 
 
 Features at a glance:
