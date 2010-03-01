@@ -97,7 +97,13 @@ if (!class_exists("CSSDropDownMenu")) {
 		                $number += sizeof($this->return_links());
 		    
 		            if ($this->show_cats)
-		                $number += sizeof($this->return_cats());
+			    {
+			        foreach ($this->return_cats() as $c)
+				{
+				    if  ($c->post_parent == 0)
+				        $number++;
+				}
+			    }
 		   
 		            update_option('wp_css_menu_page_num', $number);
 	          }
