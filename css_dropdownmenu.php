@@ -5,7 +5,7 @@
    Plugin Name: WP CSS Dropdown Menu
    Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
    Description: The ultimate wordpress dropdown menu builder. <a href="http://www.zackdesign.biz">Donate</a> | <a href="http://www.cssplay.co.uk/menus/">Other Menu Styles</a>
-   Version: 3.0.8
+   Version: 3.0.9
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 
@@ -29,6 +29,7 @@ if (!class_exists("CSSDropDownMenu")) {
         var $exclude_lid;
         var $show_cats = 0;
         var $exclude_cid;
+        var $cat_order;
         var $start_cid;
         var $selective_pages = 0;
         
@@ -301,11 +302,17 @@ if (!class_exists("CSSDropDownMenu")) {
                 foreach ($cats as $cat)
                     $remove .= " AND $wpdb->terms.term_id !=  $cat";
             }
+	    
+            $order = '';
+            if ($this->cat_order == 'description')
+                $order = "ORDER BY $wpdb->term_taxonomy.description";
+            else
+                $order = "ORDER BY $wpdb->terms.name";
     
             $sql = "SELECT $wpdb->terms.term_id as ID, $wpdb->terms.name as post_title, $wpdb->terms.slug as slug, $wpdb->term_taxonomy.parent as post_parent, 
                       $wpdb->term_taxonomy.taxonomy as type 
                       FROM $wpdb->term_taxonomy, $wpdb->terms 
-                      WHERE $wpdb->term_taxonomy.taxonomy = 'category' AND $wpdb->terms.term_id = $wpdb->term_taxonomy.term_id $remove";
+                      WHERE $wpdb->term_taxonomy.taxonomy = 'category' AND $wpdb->terms.term_id = $wpdb->term_taxonomy.term_id $remove $order";
     
             return $wpdb->get_results($sql);
         }

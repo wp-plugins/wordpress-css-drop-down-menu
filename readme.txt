@@ -5,7 +5,7 @@ Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendl
 Donate link: http://zackdesign.biz
 Requires at least: 2.8
 Tested up to: 2.9.2
-Stable tag: 3.0.8
+Stable tag: 3.0.9
 
 Turn your WP pages, links, and post categories into a menu system; includes some starting CSS and JS
 
@@ -105,6 +105,7 @@ $myMenu->show_links - Show links, default is '0', expected values 0,1
 $myMenu->exclude_cid - Exclude post categories by ID, comma seperated
 $myMenu->show_cats - Show post categories, default is '0', comma seperated
 $myMenu->start_cid - Starting root ID of post categories, default is empty
+$myMenu->cat_order - Values are 'name', 'description' - default is none
 $myMenu->selective_pages - Shows only children of currently selected menu item, default is '0', expected values 0,1`
 
 * The plugin defines its own menu.css in your theme's header. If you have your own menu.css file in your theme folder the plugin will check for that and load that for you automatically. It may be easier to simply copy across menu.css from the plugin folder and use that as the basis for your own. Or, browse the internet for unordered CSS list menu styles. [Stu's site is a good start](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus").
@@ -144,6 +145,10 @@ can do the same for you. Check out www.zackdesign.biz
 You need PHP 5 to run this
 
 == Changelog ==
+
+3.0.9
+
+- Added category ordering by description/name
 
 3.0.8
 
