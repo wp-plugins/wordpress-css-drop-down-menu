@@ -1,3 +1,3 @@
-jQuery(function(){
-			jQuery('ul.sf-menu').superfish();
-		});
+jQuery(document).ready(function(){
+	jQuery('.sf-menu ul').superfish();
+});

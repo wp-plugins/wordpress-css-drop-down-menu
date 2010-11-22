@@ -3,31 +3,22 @@ Contributors: zackdesign
 http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
 Donate link: http://zackdesign.biz
-Requires at least: 2.8
-Tested up to: 2.9.2
-Stable tag: 3.0.9
+Requires at least: 3.0
+Tested up to: 3.0.1
+Stable tag: 4.0
 
-Turn your WP pages, links, and post categories into a menu system; includes some starting CSS and JS
+Use Wordpress' nav menu system to create left/right widget flyouts, with support for Superfish
 
 == Description ==
 
 _Note_: This plugin requires PHP 5
 
-_Fatal Error_?
-
-This is due to pre version 3.x code in your theme. You needed to update it to continue using version 3.x of this plugin. Your options:
-
-* Click on Installation in the menu above to make your theme compatible
-* Downgrade to a version that works: [2.3.7](http://downloads.wordpress.org/plugin/wordpress-css-drop-down-menu.2.3.7.zip "Version 2.3.7")
-* Contact [Zack Design](http://zackdesign.biz "Zack Design") for help
-
+_Warning_: This plugin requires knowledge of CSS to use adequately in widgets
 
 Features at a glance:
 
-* Submenu support (shows the parent page, and the current page when viewing that current page)
-* Now widgetised to make it really easy to add multiple dropdowns anywhere on the page you have sidebars
+* Widgetised to make it really easy to add multiple dropdowns anywhere on the page you have sidebars
 * Ability to create the menu wherever you want with PHP Classes
-* Pages, post categories, and links are all selectable and highly configurable to display however you want on whatever widget or manually-set sidebar you wish
 * Leverages the new Wordpress 2.8 widget settings to allow quick and easy multiple widget instances
 
 Theming options:
@@ -51,14 +42,37 @@ Please note that if you're upgrading you will need to change your theme files to
 
 * Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
 * Activate the plugin through the 'Plugins' menu in WordPress
-* Add a Dropdown widget to one of your sidebars. If you want to shown the widget in the header of your theme, [add a sidebar to your header file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). 
+* Add the required code to header.php in your Wordpress theme
 
-PHP for your header.php:  
+`<?php
+if (class_exists('CSSDropDownMenu'))
+ {
+     $myMenu = new CSSDropDownMenu(); 
+     /* Extra options here, like so: $myMenu->orientation="top"; */ 
+     $myMenu->show(); 
+ }
+ ?>`
+ 
+ You can place the above code anywhere in your theme, not just the header. Options available to you are:
+ 
+ `$myMenu->orientation - Values are 'top', 'right', 'left' - default is 'top'
+ $myMenu->name - Wordpress menu id, slug, or name
+ $myMenu->container_class - the class that is applied to the container 
+ $myMenu->theme_location - The location in the theme to be used (defined via register_nav_menu)
+ $myMenu->menu_class - CSS class to be used for the ul element which forms the menu`
+ 
+ These are a subset of the options given here: http://codex.wordpress.org/Function_Reference/wp_nav_menu
+ 
+ * Or, add a sidebar to your theme if you don't already have one
+
+If you want to show the widget in the header of your theme, [add a sidebar to your header.php file and update your functions.php file to add a new sidebar there](http://codex.wordpress.org/Customizing_Your_Sidebar "Customizing your Sidebar"). 
+
+PHP for your sidebar.php file in your Wordpress theme:  
 
 `<?php if ( function_exists ( dynamic_sidebar('menu') ) ) : dynamic_sidebar ('menu'); endif; ?>`
 
 
-PHP for your functions file: 
+Example PHP for your functions file: 
 
 `<?php
 if ( function_exists ('register_sidebar')) { 
@@ -74,45 +88,10 @@ if ( function_exists ('register_sidebar')) {
 }
 ?>`
 
-Note: The reason I recommend you add a sidebar to your header is simply because it's easier to edit than going in and editing the PHP every time you want to change something. Remember, a 'sidebar' is a misnomer, really it should just be called a 'widget area'.
-
-Alternatively just manually reference the class as shown below:
-
-`<?php
-if (class_exists('CSSDropDownMenu'))
- {
-     $myMenu = new CSSDropDownMenu(); 
-     /* Extra options here, like so: $myMenu->exclude_purl="1"; */ 
-     $myMenu->show(); 
- }
- ?>`
-
-These are the options you have when manually placing your menu code in the header:
-
-`$myMenu->before_menu - Defaults to <div class="menu"><ul>, can be anything you like, and you can add wrapping HTML for manually defined links here. The plugin will actually change the CSS classes in this variable only if it is in its default state so if you're wondering why the CSS isn't working check this.
-$myMenu->after_menu - Defaults to </ul></div>, can be anything you like, and you can add wrapping HTML for manually defined links here. 
-$myMenu->orientation - Values are 'top', 'right', 'left' - default is 'top'
-$myMenu->home - Home page text, default is 'Home'
-$myMenu->exclude_pid - Page IDs to exclude, comma seperated
-$myMenu->exclude_purl - Page URLs removed by ID, comma seperated
-$myMenu->show_pages - Show pages, default is '1', expected values 0,1
-$myMenu->parent_urls - Remove all parent URLs, default is '0', expected values 0,1
-$myMenu->subpages - Show subpages only (also shows parent page), default is '0', expected values 0,1
-$myMenu->auth_id - Starting root ID of authenticated user, default is empty
-$myMenu->non_auth_id - Starting root ID of non-authenticated user or just starting ID of menu, default is empty
-$myMenu->exclude_lid - Remove link categories based on ID, comma seperated
-$myMenu->show_links - Show links, default is '0', expected values 0,1
-$myMenu->exclude_cid - Exclude post categories by ID, comma seperated
-$myMenu->show_cats - Show post categories, default is '0', comma seperated
-$myMenu->start_cid - Starting root ID of post categories, default is empty
-$myMenu->cat_order - Values are 'name', 'description' - default is none
-$myMenu->selective_pages - Shows only children of currently selected menu item, default is '0', expected values 0,1`
-
 * The plugin defines its own menu.css in your theme's header. If you have your own menu.css file in your theme folder the plugin will check for that and load that for you automatically. It may be easier to simply copy across menu.css from the plugin folder and use that as the basis for your own. Or, browse the internet for unordered CSS list menu styles. [Stu's site is a good start](http://www.cssplay.co.uk/menus/ "Stu Nicholl's Menus").
 
-* You can also activate the JS addon plugin to use Superfish javascript. This plugin uses its own Superfish CSS which you can find in the plugin js/superfish directory. Place superfish.css into your own theme folder to avoid having your CSS overwritten on a plugin update!
-
-* For page ordering I suggest you use the excellent plugin called [PageMash](http://wordpress.org/extend/plugins/pagemash/ "PageMash").
+* You can also activate the JS addon plugin to use Superfish javascript. This plugin uses its own Superfish CSS which you can find in the plugin js/superfish directory. It has been modified for use with Wordpress. Place superfish.css into your own theme folder to avoid having your CSS overwritten on a plugin update! 
+It's also possible to use other Superfish menu variants but you will need to edit and include them yourself using functions.php in your theme folder. Please also note that right/left widget items won't work with this menu type installed right now.
 
 * If you get 'broken image links' in IE it's because the background dropdown images in your menu.css file are set to Stu's original ones. You will need to change these.
 
@@ -135,6 +114,10 @@ if (class_exists('CSSDropDownMenu'))
 
 == Frequently Asked Questions ==
 
+= It doesn't work with IE x =
+
+(Un)fortunately the Wordpress nav menu system doesn't use the browser hacks Stu Nicholl used. There are many other CSS navigation menus out there these days, do a quick Google search, pop it into your own menu.css file, and target the correct class. It's easy to drop over the top!
+
 = I Need HELP!!! =
 
 That's what I'm here for. I do Wordpress sites for many people in a professional capacity and
@@ -144,7 +127,17 @@ can do the same for you. Check out www.zackdesign.biz
 
 You need PHP 5 to run this
 
+= Where's the dynamic width gone? =
+
+I left dynamic menu width code in until a replacement CSS menu can be found... it should not break existing dynamic CSS, but you can no longer change the options in the WP Settings.
+
+Contact me to suggest a good alternative, and if you need to change any of the options found in the `css_dropdownmenu_css` function use functions.php and this as a guide: http://codex.wordpress.org/Function_Reference/update_option
+
 == Changelog ==
+
+4.0
+
+- Set the plugin up for Wordpress 3, and removed all unnecessary code
 
 3.0.9
 

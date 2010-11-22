@@ -111,7 +111,7 @@ This stylesheet and the associated (x)html may be modified in any
 way to fit your requirements.
 =================================================================== */
 
-.menu_right {
+.right-menu {
 z-index:1000;
 font-size:90%;
 float:right;
@@ -119,26 +119,26 @@ margin:0 25px 50px 0; /* this page only */
 }
 
 /* remove all the bullets, borders and padding from the default list styling */
-.menu_right ul {
+.right-menu ul {
 padding:0;
 margin:0;
 list-style-type:none;
 width:150px;
 }
 /* hack for IE5.5 */
-* html .menu_right ul {margin-left:-16px; ma\rgin-left:0;}
+* html .right-menu ul {margin-left:-16px; ma\rgin-left:0;}
 /* position relative so that you can position the sub levels */
-.menu_right li {
+.right-menu li {
 position:relative;
 background:#d4d8bd;
 height:26px;
 }
 
 /* get rid of the table */
-.menu_right table {position:absolute; border-collapse:collapse; top:0; left:0; z-index:100; font-size:1em;}
+.right-menu table {position:absolute; border-collapse:collapse; top:0; left:0; z-index:100; font-size:1em;}
 
 /* style the links */
-.menu_right a, .menu_right a:visited {
+.right-menu a, .right-menu a:visited {
 font-family:verdana, sans-serif;
 display:block; 
 text-decoration:none;
@@ -151,47 +151,47 @@ border:1px solid #fff;
 border-width:0 1px 1px 0;
 }
 /* hack for IE5.5 */
-* html .menu_right a, * html .menu_right a:visited {background:#d4d8bd; width:150px; w\idth:149px;}
+* html .right-menu a, * html .right-menu a:visited {background:#d4d8bd; width:150px; w\idth:149px;}
 /* style the link hover */
-* html .menu_right a:hover {color:#fff; background:#949e7c;}
+* html .right-menu a:hover {color:#fff; background:#949e7c;}
 
-.menu_right :hover > a{
+.right-menu :hover > a{
 color:#fff; 
 background:#949e7c;
 }
 
 /* hide the sub levels and give them a positon absolute so that they take up no room */
-.menu_right ul ul {
+.right-menu ul ul {
 visibility:hidden;
 position:absolute;
 top:0;
 left:-150px; 
 }
 /* make the second level visible when hover on first level list OR link */
-.menu_right ul li:hover ul,
-.menu_right ul a:hover ul {
+.right-menu ul li:hover ul,
+.right-menu ul a:hover ul {
 visibility:visible;
 }
 /* keep the third level hidden when you hover on first level list OR link */
-.menu_right ul :hover ul ul{
+.right-menu ul :hover ul ul{
 visibility:hidden;
 }
 /* keep the fourth level hidden when you hover on second level list OR link */
-.menu_right ul :hover ul :hover ul ul{
+.right-menu ul :hover ul :hover ul ul{
 visibility:hidden;
 }
 /* make the third level visible when you hover over second level list OR link */
-.menu_right ul :hover ul :hover ul{ 
+.right-menu ul :hover ul :hover ul{ 
 visibility:visible;
 }
 /* make the fourth level visible when you hover over third level list OR link */
-.menu_right ul :hover ul :hover ul :hover ul { 
+.right-menu ul :hover ul :hover ul :hover ul { 
 visibility:visible;
 }
 /*
 <!--[if IE 7]>
 <style type="text/css">
-.menu_right li {float:left;}
+.right-menu li {float:left;}
 </style>
 <![endif]-->
 */
@@ -205,27 +205,27 @@ Copyright (c) 2005-2009 Stu Nicholls. All rights reserved.
 This stylesheet and the associated (x)html may be modified in any 
 way to fit your requirements.
 =================================================================== */
-.menu_left {height:132px; width:132px; position:relative;}
+.left-menu {height:132px; width:132px; position:relative;}
 
-.menu_left ul {margin:0; padding:0; list-style:none; white-space:nowrap; text-align:left; padding:1px 1px 0 1px; background:#fff;}
+.left-menu ul {margin:0; padding:0; list-style:none; white-space:nowrap; text-align:left; padding:1px 1px 0 1px; background:#fff;}
 
-.menu_left li {margin:0; padding:0; list-style:none;}
-.menu_left li {display:inline;}
-.menu_left ul ul {position:absolute; left:-9999px;}
-.menu_left ul#toplevel {position:absolute; left:0; top:0;}
+.left-menu li {margin:0; padding:0; list-style:none;}
+.left-menu li {display:inline;}
+.left-menu ul ul {position:absolute; left:-9999px;}
+.left-menu ul#toplevel {position:absolute; left:0; top:0;}
 
-.menu_left a {display:block; font:normal 11px verdana,arial,sans-serif; color:#000; line-height:22px; text-decoration:none;padding:0 20px 0 10px;} 
-.menu_left li a.fly {background: url(anywidth/arrow.gif) no-repeat right top;}
+.left-menu a {display:block; font:normal 11px verdana,arial,sans-serif; color:#000; line-height:22px; text-decoration:none;padding:0 20px 0 10px;} 
+.left-menu li a.fly {background: url(anywidth/arrow.gif) no-repeat right top;}
 
-.menu_left li a:hover {background-color:#09c; color:#fff;} 
-.menu_left li:hover > a {background-color:#09c; color:#fff;}
+.left-menu li a:hover {background-color:#09c; color:#fff;} 
+.left-menu li:hover > a {background-color:#09c; color:#fff;}
 
-.menu_left ul li:hover > ul {left:100%; margin-top:-23px; margin-left:-1px;}
+.left-menu ul li:hover > ul {left:100%; margin-top:-23px; margin-left:-1px;}
 
-.menu_left a:hover ul,
-.menu_left a:hover a:hover ul, 
-.menu_left a:hover a:hover a:hover ul {left:100%;}
-.menu_left a:hover ul ul, 
-.menu_left a:hover a:hover ul ul {left:-9999px;}
+.left-menu a:hover ul,
+.left-menu a:hover a:hover ul, 
+.left-menu a:hover a:hover a:hover ul {left:100%;}
+.left-menu a:hover ul ul, 
+.left-menu a:hover a:hover ul ul {left:-9999px;}
 
-.menu_left table {position:absolute; left:99%; height:0; width:0; border-collapse:collapse; margin-top:-7px; margin-left:-1px;}
+.left-menu table {position:absolute; left:99%; height:0; width:0; border-collapse:collapse; margin-top:-7px; margin-left:-1px;}
