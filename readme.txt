@@ -42,7 +42,7 @@ Please note that if you're upgrading you will need to change your theme files to
 
 * Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
 * Activate the plugin through the 'Plugins' menu in WordPress
-* Add the required code to header.php in your Wordpress theme
+* Add the required code to header.php in your Wordpress theme:
 
 `<?php
 if (class_exists('CSSDropDownMenu'))
