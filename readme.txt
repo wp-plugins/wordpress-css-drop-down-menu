@@ -4,8 +4,8 @@ http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
 Donate link: http://zackdesign.biz
 Requires at least: 3.0
-Tested up to: 3.0.1
-Stable tag: 4.0
+Tested up to: 3.0.3
+Stable tag: 4.0.1
 
 Use Wordpress' nav menu system to create left/right widget flyouts, with support for Superfish
 
@@ -42,7 +42,7 @@ Please note that if you're upgrading you will need to change your theme files to
 
 * Upload the 'wordpress-css-drop-down-menu' folder to the `/wp-content/plugins/` directory or install it from Wordpress.org's Plugin directory inside your Wordpress installation.
 * Activate the plugin through the 'Plugins' menu in WordPress
-* Add the required code to header.php in your Wordpress theme:
+* Add the required code to header.php in your Wordpress theme
 
 `<?php
 if (class_exists('CSSDropDownMenu'))
@@ -134,6 +134,10 @@ I left dynamic menu width code in until a replacement CSS menu can be found... i
 Contact me to suggest a good alternative, and if you need to change any of the options found in the `css_dropdownmenu_css` function use functions.php and this as a guide: http://codex.wordpress.org/Function_Reference/update_option
 
 == Changelog ==
+
+4.0.1
+
+- Fixed the CSS appearing in Wordpress admin
 
 4.0
 
