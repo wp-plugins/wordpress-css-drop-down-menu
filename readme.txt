@@ -1,6 +1,6 @@
 === Wordpress CSS Drop-down Menu ===
 Contributors: zackdesign
-http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
+http://wordpress.zackdesign.biz/css-dropdown-menu/
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
 Donate link: http://zackdesign.biz
 Requires at least: 3.0
