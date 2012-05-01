@@ -3,9 +3,9 @@
    /*
 
    Plugin Name: WP CSS Dropdown Menu
-   Plugin URI: http://wordpress.zackdesign.biz/css-dropdown-menu/
+   Plugin URI: http://wp.zackdesign.biz/css-dropdown-menu/
    Description: The ultimate wordpress dropdown menu builder. <a href="http://www.zackdesign.biz">Donate</a> | <a href="http://www.cssplay.co.uk/menus/">Other Menu Styles</a>
-   Version: 4.0.1
+   Version: 4.0.2
    Author: Isaac Rowntree
    Author URI: http://www.zackdesign.biz
 

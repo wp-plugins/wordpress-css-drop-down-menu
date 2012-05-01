@@ -1,11 +1,11 @@
 === Wordpress CSS Drop-down Menu ===
 Contributors: zackdesign
-http://wordpress.zackdesign.biz/css-dropdown-menu/
+http://wp.zackdesign.biz/css-dropdown-menu/
 Tags: css, dropdown, menu, wordpress, plugin, page, drop, down, browser, friendly, child, theme, exclude, superfish, flyout, widget
 Donate link: http://zackdesign.biz
 Requires at least: 3.0
-Tested up to: 3.0.3
-Stable tag: 4.0.1
+Tested up to: 3.3.2
+Stable tag: 4.0.2
 
 Use Wordpress' nav menu system to create left/right widget flyouts, with support for Superfish
 
@@ -110,7 +110,7 @@ if (class_exists('CSSDropDownMenu'))
 
 == Screenshots ==
 
-[Zack Design Plugin Showcase](http://wordpress.zackdesign.biz "Plugin Showcase")
+[Zack Design Plugin Showcase](http://wp.zackdesign.biz "Plugin Showcase")
 
 == Frequently Asked Questions ==
 
