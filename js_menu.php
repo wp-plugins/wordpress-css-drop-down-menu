@@ -1,15 +1,13 @@
 <?php
+/*
+Plugin Name: WP CSS Dropdown Menu JS add-on
+Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
+Description: A complementary javascript plugin to the CSS dropdown menu. This uses a different stylesheet found in <plugin folder>/js/superfish/css/superfish.css
+Version: 4.0.2
+Author: Isaac Rowntree
+Author URI: http://www.zackdesign.biz
 
-   /*
-
-   Plugin Name: WP CSS Dropdown Menu JS add-on
-   Plugin URI: http://www.zackdesign.biz/category/wp-plugins/css-dropdown-menu
-   Description: A complementary javascript plugin to the CSS dropdown menu. This uses a different stylesheet found in <plugin folder>/js/superfish/css/superfish.css
-   Version: 4
-   Author: Isaac Rowntree
-   Author URI: http://www.zackdesign.biz
-
-   */
+*/
    
    add_action('init', 'includeSuperfish');
    
