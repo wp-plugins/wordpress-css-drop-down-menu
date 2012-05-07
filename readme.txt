@@ -135,6 +135,10 @@ Contact me to suggest a good alternative, and if you need to change any of the o
 
 == Changelog ==
 
+4.0.2 
+
+- Added licensing information and tested in WP 3.3.x
+
 4.0.1
 
 - Fixed the CSS appearing in Wordpress admin
